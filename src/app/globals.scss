@@ -1,3 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+@import url('../../node_modules/highlight.js/styles/github-dark.min.css');
+
 :root {
   --bg-rgb: 250, 250, 255;
 }
@@ -12,6 +16,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font-family: 'Nunito Sans', sans-serif;
 }
 
 html,
@@ -34,6 +39,16 @@ select {
   color: inherit;
   font-size: inherit;
   font-family: inherit;
+}
+
+pre {
+  font-size: 1rem;
+  font-family: 'Jetbrains Mono', monospace !important;
+
+  span {
+    font-size: 1rem;
+    font-family: 'Jetbrains Mono', monospace !important;
+  }
 }
 
 // @media (prefers-color-scheme: dark) {

@@ -1,7 +1,8 @@
 import Link from 'next/link';
+
+import { Footer } from '@/components/Footer';
 import GoogleIcon from '@/assets/icons/google.svg';
 import styles from './page.module.scss';
-import { Footer } from '@/components/Footer';
 
 export default function Signup() {
   return (
@@ -12,7 +13,7 @@ export default function Signup() {
 
           <div className={styles['form__subtitle']}>
             <span>У вас уже есть учетная запись?</span>
-            <Link href={'/'}>Войти</Link>
+            <Link href={'/signin'}>Войти</Link>
           </div>
 
           <div className={styles['field']}>

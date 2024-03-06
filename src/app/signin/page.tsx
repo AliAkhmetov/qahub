@@ -1,7 +1,7 @@
+import { Footer } from '@/components/Footer';
 import Link from 'next/link';
 import GoogleIcon from '@/assets/icons/google.svg';
 import styles from './page.module.scss';
-import { Footer } from '@/components/Footer';
 
 export default function Signin() {
   return (
@@ -24,8 +24,8 @@ export default function Signin() {
               className={styles['field__input']}
             />
           </div>
-          {/* 
-          <div className={styles['field']}>
+
+          {/* <div className={styles['field']}>
             <p className={styles['field__label']}>Пароль</p>
 
             <input
