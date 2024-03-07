@@ -1,13 +1,46 @@
+'use client';
+
+import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
+import { useMutation } from 'react-query';
+import { signinService } from '@/services/auth/signin';
+import type { FormData } from '@/services/auth/signin';
+
 import { Footer } from '@/components/Footer';
 import Link from 'next/link';
 import GoogleIcon from '@/assets/icons/google.svg';
 import styles from './page.module.scss';
 
 export default function Signin() {
+  const router = useRouter();
+
+  const { register, handleSubmit } = useForm<FormData>();
+  const signin = useMutation({
+    mutationKey: ['signin'],
+    mutationFn: signinService,
+  });
+
+  const handleSignin = async (formData: FormData) => {
+    try {
+      const response = await signin.mutateAsync(formData);
+
+      if (response.status === 200) {
+        const token = JSON.stringify({
+          access: response.data.token,
+          liveTime: response.data.expires,
+        });
+
+        localStorage.setItem('token', token);
+
+        return router.push('/blog');
+      }
+    } catch {}
+  };
+
   return (
     <div className={styles['page-wrapper']}>
       <div className={styles['hero-section']}>
-        <form className={styles['form']}>
+        <form onSubmit={handleSubmit(handleSignin)} className={styles['form']}>
           <div className={styles['form__title']}>Войти</div>
 
           <div className={styles['form__subtitle']}>
@@ -22,20 +55,24 @@ export default function Signin() {
               type={'text'}
               placeholder='Введите ваш адрес электронной почты'
               className={styles['field__input']}
+              {...register('email')}
             />
           </div>
 
-          {/* <div className={styles['field']}>
+          <div className={styles['field']}>
             <p className={styles['field__label']}>Пароль</p>
 
             <input
               type={'password'}
               placeholder='Введите ваш пароль'
               className={styles['field__input']}
+              {...register('password')}
             />
-          </div> */}
+          </div>
 
-          <button className={styles['form__submit']}>Продолжить</button>
+          <button disabled={signin.isLoading} className={styles['form__submit']}>
+            Продолжить
+          </button>
 
           <p className={styles['form__description']}>Или продолжить с помощью</p>
 

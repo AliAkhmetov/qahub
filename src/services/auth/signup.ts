@@ -1,6 +1,7 @@
 import { apiClient } from '@/services';
+import type { AxiosResponse } from 'axios';
 
-interface FormData {
+export interface FormData {
   email: string;
   username: string;
   password: string;
@@ -8,6 +9,6 @@ interface FormData {
 
 interface SignupService {}
 
-export async function signupService(formData: FormData): Promise<SignupService> {
+export async function signupService(formData: FormData): Promise<AxiosResponse<SignupService>> {
   return await apiClient.post('/auth/registration', formData);
 }

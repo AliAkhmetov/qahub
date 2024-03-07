@@ -94,6 +94,11 @@
       font-size: 0.875rem;
       line-height: 18px;
     }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
   }
 
   &__description {
