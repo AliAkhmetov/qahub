@@ -1,16 +1,13 @@
 'use client';
 
 import Header from '@/components/Header/Header';
-import ArticleImage from '@/assets/images/articles/time-machine.png';
 import styles from './page.module.scss';
-import Image from 'next/image';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { useQuery } from 'react-query';
 import { getPostByIdService } from '@/services/post/posts';
 import dayjs from 'dayjs';
 
 export default function ID() {
-  const router = useRouter();
   const params = useParams();
 
   const { data, isLoading } = useQuery({

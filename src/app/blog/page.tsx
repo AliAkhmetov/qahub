@@ -1,6 +1,6 @@
 'use client';
 
-import { useMutation, useQuery } from 'react-query';
+import { useQuery } from 'react-query';
 import { getPostsService } from '@/services/post/posts';
 
 import Header from '@/components/Header/Header';
@@ -14,7 +14,7 @@ export default function Blog() {
     queryFn: getPostsService,
   });
 
-  const articles = response?.data;
+  const articles = response?.data.reverse();
 
   return (
     <div>

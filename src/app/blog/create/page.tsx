@@ -60,6 +60,7 @@ export default function Create() {
     title: '',
     image: '',
     content: '',
+    readTime: '',
   });
 
   const createPost = useMutation({
@@ -75,7 +76,7 @@ export default function Create() {
         content: formData.content,
         imageLink: formData.image,
         categoriesInt: [1, 3],
-        readTime: 7,
+        readTime: Number(formData.readTime),
       },
       access: token.access,
     });
@@ -109,6 +110,17 @@ export default function Create() {
             placeholder='Ссылка на изображение'
             value={formData.image}
             onChange={({ target: { value } }) => setFormData((prev) => ({ ...prev, image: value }))}
+          />
+
+          <input
+            type='number'
+            inputMode='numeric'
+            className={styles['editor-fields__image']}
+            placeholder='Время чтения'
+            value={formData.readTime}
+            onChange={({ target: { value } }) =>
+              setFormData((prev) => ({ ...prev, readTime: value }))
+            }
           />
         </div>
 
