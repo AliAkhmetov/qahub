@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 import { useQuery } from 'react-query';
 import { getPostByIdService } from '@/services/post/posts';
+import dayjs from 'dayjs';
 
 export default function ID() {
   const router = useRouter();
@@ -33,6 +34,10 @@ export default function ID() {
               <img src={article.imageLink} alt='' />
             </div>
           </div>
+
+          <p className={styles['article-datetime']}>
+            {dayjs(article.createdAt).format('DD/MM/YYYY')}
+          </p>
 
           <main
             className={styles['article-content']}
