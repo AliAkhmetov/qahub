@@ -1,4 +1,4 @@
-import { getPostsService } from '@/services/posts/posts';
+import { getPostsService } from '@/services/post/posts';
 
 import Link from 'next/link';
 import Header from '@/components/Header/Header';

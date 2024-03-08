@@ -1,4 +1,4 @@
-import { apiClient } from '@/services';
+import api from '@/services';
 import type { AxiosResponse } from 'axios';
 
 export interface FormData {
@@ -13,5 +13,5 @@ interface SigninService {
 }
 
 export async function signinService(formData: FormData): Promise<AxiosResponse<SigninService>> {
-  return await apiClient.post('/auth/login', formData);
+  return await api.post('/auth/login', formData);
 }

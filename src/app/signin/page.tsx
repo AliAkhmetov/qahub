@@ -10,10 +10,12 @@ import { Footer } from '@/components/Footer';
 import Link from 'next/link';
 import GoogleIcon from '@/assets/icons/google.svg';
 import styles from './page.module.scss';
+import { useAuthStore } from '@/store/auth';
 
 export default function Signin() {
   const router = useRouter();
 
+  const { updateAuth, updateToken } = useAuthStore();
   const { register, handleSubmit } = useForm<FormData>();
   const signin = useMutation({
     mutationKey: ['signin'],
@@ -25,12 +27,13 @@ export default function Signin() {
       const response = await signin.mutateAsync(formData);
 
       if (response.status === 200) {
-        const token = JSON.stringify({
+        const token = {
           access: response.data.token,
           liveTime: response.data.expires,
-        });
+        };
 
-        localStorage.setItem('token', token);
+        updateToken(token);
+        updateAuth(true);
 
         return router.push('/blog');
       }

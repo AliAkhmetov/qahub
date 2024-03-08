@@ -1,4 +1,4 @@
-import { apiClient } from '@/services';
+import api from '@/services';
 import type { AxiosResponse } from 'axios';
 
 export interface FormData {
@@ -10,5 +10,5 @@ export interface FormData {
 interface SignupService {}
 
 export async function signupService(formData: FormData): Promise<AxiosResponse<SignupService>> {
-  return await apiClient.post('/auth/registration', formData);
+  return await api.post('/auth/registration', formData);
 }

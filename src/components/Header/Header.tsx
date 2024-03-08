@@ -5,11 +5,12 @@ import { useState } from 'react';
 
 import Link from 'next/link';
 import styles from './Header.module.scss';
+import { useAuthStore } from '@/store/auth';
 
 export default function Header() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { isAuth } = useAuthStore();
 
-  const isAuth = false;
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleToggleMenu = () => {
     setIsMenuOpen((prev) => !prev);

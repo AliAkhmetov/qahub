@@ -36,7 +36,9 @@ export default function Signup() {
 
           <div className={styles['form__subtitle']}>
             <span>У вас уже есть учетная запись?</span>
-            <Link href={'/signin'}>Войти</Link>
+            <Link href={'/signin'} prefetch>
+              Войти
+            </Link>
           </div>
 
           <div className={styles['field']}>
