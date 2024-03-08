@@ -1,36 +1,29 @@
 import api from '@/services';
+import type { Article } from '@/types';
 import type { AxiosResponse } from 'axios';
 
-interface Post {
-  id: number;
-  createdBy: number;
-  authorName: string;
-  createdAt: string;
-  updatedAt: string;
-  title: string;
-  content: string;
-  categories: string;
-  categoriesInt: number;
-  likes: number;
-  dislikes: number;
-  myLikeId: number;
-  status: string;
-  readTime: number;
-  imageLink: string;
+export async function getPostsService(): Promise<AxiosResponse<Article[]>> {
+  return await api.get<Article[]>('/posts/');
 }
 
-export async function getPostsService(): Promise<AxiosResponse<Post[]>> {
-  return await api.get<Post[]>('/posts');
+interface GetPostByIdResponse {
+  post_info: Article;
+  comments: null;
+  autorized: boolean;
+  userId: number;
+  userType: string;
+}
+
+export async function getPostByIdService({
+  id,
+}: {
+  id: string;
+}): Promise<AxiosResponse<GetPostByIdResponse>> {
+  return await api.get<GetPostByIdResponse>(`/posts/${id}`);
 }
 
 interface Arg {
-  formData: {
-    title: string;
-    content: string;
-    categoriesInt: number[];
-    imageLink: string;
-    readTime: number;
-  };
+  formData: Partial<Article>;
   access: string;
 }
 

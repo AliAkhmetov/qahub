@@ -1,4 +1,7 @@
 .editor {
+  display: flex;
+  row-gap: 2rem;
+  flex-flow: column;
   margin-top: 2rem;
   margin-inline: auto;
   padding-inline: 3rem;
@@ -9,46 +12,101 @@
     margin-top: 2rem;
     padding-inline: 1rem;
   }
-}
 
-.actions {
-  display: flex;
-  row-gap: 1rem;
-  justify-content: center;
-  align-items: center;
-
-  padding-block: 2rem;
-
-  @media (max-width: 768px) {
-    padding-inline: 1rem;
+  h1 {
+    color: rgb(51, 51, 63) !important;
+    font-weight: 800 !important;
+    font-size: 3.75rem !important;
+    line-height: 60px !important;
   }
 
-  &__button-publish {
-    border-radius: 0.25rem;
-    background: rgb(57, 100, 255);
-
-    padding: 0.625rem;
-
-    width: 100%;
-    max-width: 15rem;
-
-    color: rgb(255, 255, 255);
-    font-weight: 400;
-    font-size: 1rem;
-    line-height: 22px;
-    text-align: center;
+  h2 {
+    color: rgb(51, 51, 63) !important;
+    font-weight: 700 !important;
+    font-size: 2.25rem !important;
+    line-height: 40px !important;
   }
 
-  &__button-close {
-    padding: 0.625rem;
+  p,
+  strong {
+    color: rgb(51, 51, 63) !important;
+    font-weight: 300 !important;
+    font-size: 1.125rem !important;
+    line-height: 28px !important;
+  }
 
-    width: 100%;
-    max-width: 15rem;
+  strong {
+    font-weight: 700 !important;
+  }
 
-    color: rgb(51, 51, 63);
-    font-weight: 400;
-    font-size: 1rem;
-    line-height: 22px;
-    text-align: center;
+  &-fields {
+    display: flex;
+    row-gap: 1rem;
+    flex-flow: column;
+    align-items: flex-start;
+
+    &__title {
+      outline: none;
+      border: none;
+      background: none;
+      width: 100%;
+      color: rgb(51, 51, 63);
+      font-weight: 800;
+      font-size: 3.75rem;
+      line-height: 60px;
+    }
+
+    &__image {
+      outline: none;
+      border: none;
+      background: none;
+      width: 100%;
+      color: rgb(51, 51, 63);
+      font-weight: 700;
+      font-size: 1.25rem;
+      line-height: 22px;
+    }
+  }
+
+  &-actions {
+    display: flex;
+    row-gap: 1rem;
+    justify-content: center;
+    align-items: center;
+
+    padding-block: 2rem;
+
+    @media (max-width: 768px) {
+      padding-inline: 1rem;
+    }
+
+    &__button-publish {
+      border-radius: 0.25rem;
+      background: rgb(57, 100, 255);
+
+      padding: 0.625rem;
+
+      width: 100%;
+      max-width: 15rem;
+
+      color: rgb(255, 255, 255);
+      font-weight: 400;
+      font-size: 1rem;
+      line-height: 22px;
+      text-align: center;
+    }
+
+    &__button-close {
+      padding: 0.625rem;
+
+      width: 100%;
+      max-width: 15rem;
+
+      color: rgb(51, 51, 63);
+      font-weight: 400;
+      font-size: 1rem;
+      line-height: 22px;
+      text-align: center;
+    }
   }
 }
