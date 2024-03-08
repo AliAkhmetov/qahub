@@ -85,9 +85,9 @@ export default function Create() {
     }
   };
 
-  if (!isAuth) {
-    return router.back();
-  }
+  // if (!isAuth) {
+  //   return router.back();
+  // }
 
   return (
     <div>
