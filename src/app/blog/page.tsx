@@ -1,3 +1,6 @@
+'use client';
+
+import { useMutation, useQuery } from 'react-query';
 import { getPostsService } from '@/services/post/posts';
 
 import Header from '@/components/Header/Header';
@@ -5,8 +8,13 @@ import { Footer } from '@/components/Footer';
 import { Article } from '@/components/Article';
 import styles from './page.module.scss';
 
-export default async function Blog() {
-  const articles = await getPostsService();
+export default function Blog() {
+  const { isLoading, data: response } = useQuery({
+    queryKey: ['posts'],
+    queryFn: getPostsService,
+  });
+
+  const articles = response?.data;
 
   return (
     <div>
@@ -43,9 +51,13 @@ export default async function Blog() {
         </div>
 
         <div className={styles['articles']}>
-          {articles.data.map((article, index) => (
-            <Article href={`/blog/${article.id}`} article={article} key={article.id} />
-          ))}
+          {isLoading || !articles ? (
+            <p>Загрузка постов...</p>
+          ) : (
+            articles.map((article) => (
+              <Article href={`/blog/${article.id}`} article={article} key={article.id} />
+            ))
+          )}
         </div>
       </section>
 
