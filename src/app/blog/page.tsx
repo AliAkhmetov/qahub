@@ -1,5 +1,6 @@
 'use client';
 
+import { i18n } from '@/i18n';
 import { useQuery } from 'react-query';
 import { getPostsService } from '@/services/post/posts';
 
@@ -9,12 +10,10 @@ import { Article } from '@/components/Article';
 import styles from './page.module.scss';
 
 export default function Blog() {
-  const { isLoading, data: response } = useQuery({
+  const { isLoading, data: articles } = useQuery({
     queryKey: ['posts'],
-    queryFn: getPostsService,
+    queryFn: () => getPostsService({ language: i18n.language }).then((response) => response.data),
   });
-
-  const articles = response?.data.reverse();
 
   return (
     <div>
@@ -54,9 +53,11 @@ export default function Blog() {
           {isLoading || !articles ? (
             <p>Загрузка постов...</p>
           ) : (
-            articles.map((article) => (
-              <Article href={`/blog/${article.id}`} article={article} key={article.id} />
-            ))
+            articles
+              .reverse()
+              .map((article) => (
+                <Article href={`/blog/${article.id}`} article={article} key={article.id} />
+              ))
           )}
         </div>
       </section>

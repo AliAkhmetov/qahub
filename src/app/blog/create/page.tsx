@@ -7,11 +7,10 @@ import { redirect, useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store/auth';
 
 import Header from '@/components/Header/Header';
-import styles from './page.module.scss';
 import 'react-quill/dist/quill.snow.css';
+import styles from './page.module.scss';
 import { useMutation } from 'react-query';
 import { createPostService } from '@/services/post/posts';
-import { useForm } from 'react-hook-form';
 
 const ReactQuill = dynamic(
   () => {

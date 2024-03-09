@@ -2,8 +2,18 @@ import api from '@/services';
 import type { Article } from '@/types';
 import type { AxiosResponse } from 'axios';
 
-export async function getPostsService(): Promise<AxiosResponse<Article[]>> {
-  return await api.get<Article[]>('/posts/');
+interface GetPostsArg {
+  language: string;
+}
+
+export async function getPostsService({
+  language,
+}: GetPostsArg): Promise<AxiosResponse<Article[]>> {
+  return await api.get<Article[]>('/posts/', {
+    headers: {
+      Language: language,
+    },
+  });
 }
 
 interface GetPostByIdResponse {

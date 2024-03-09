@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 
-import { ReactQueryClient } from '@/providers/ReactQuery';
+import { Providers } from '@/providers';
 import './globals.scss';
 
 export const metadata: Metadata = {
@@ -15,7 +15,7 @@ export default function RootLayout({
   return (
     <html lang='kz'>
       <body>
-        <ReactQueryClient>{children}</ReactQueryClient>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

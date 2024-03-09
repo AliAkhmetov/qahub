@@ -1,20 +1,35 @@
 'use client';
 
 import cn from 'classnames';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Link from 'next/link';
 import styles from './Header.module.scss';
 import { useAuthStore } from '@/store/auth';
+import { i18n } from '@/i18n';
+import { useTranslation } from 'react-i18next';
 
 export default function Header() {
+  const { t } = useTranslation();
   const { isAuth } = useAuthStore();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [language, setLanguage] = useState(i18n.language);
 
   const handleToggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
   };
+
+  const handleChangeLanguage = (lang: string) => {
+    i18n.changeLanguage(lang);
+    localStorage.setItem('lang', lang);
+    setLanguage(lang);
+  };
+
+  useEffect(() => {
+    const lang = localStorage.getItem('lang');
+    if (lang) handleChangeLanguage(lang);
+  }, []);
 
   return (
     <header className={styles['header']}>
@@ -26,26 +41,35 @@ export default function Header() {
 
       <nav className={styles['header__right']}>
         <div className={styles['header__lang']}>
-          <Link href='#kaz' className={styles['header__lang-link']}>
+          <button
+            onClick={() => handleChangeLanguage('kz')}
+            className={cn(styles['header__lang-link'], language === 'kz' && styles['active'])}
+          >
             қаз
-          </Link>
-          <Link href='#rus' className={[styles['header__lang-link'], styles['active']].join(' ')}>
+          </button>
+          <button
+            onClick={() => handleChangeLanguage('ru')}
+            className={cn(styles['header__lang-link'], language === 'ru' && styles['active'])}
+          >
             рус
-          </Link>
-          <Link href='#eng' className={styles['header__lang-link']}>
+          </button>
+          <button
+            onClick={() => handleChangeLanguage('en')}
+            className={cn(styles['header__lang-link'], language === 'en' && styles['active'])}
+          >
             eng
-          </Link>
+          </button>
         </div>
 
         <div className={styles['header__divider']}></div>
 
         <div className={cn(styles['header__nav'], isMenuOpen && styles['active'])}>
           <Link href='/blog' className={styles['header__nav-link']}>
-            Блог
+            {t('header.nav.blog')}
           </Link>
 
           <Link href='/community' className={styles['header__nav-link']}>
-            Комьюнити
+            {t('header.nav.community')}
           </Link>
 
           {isAuth ? (
@@ -69,11 +93,11 @@ export default function Header() {
                 />
               </svg>
 
-              <span>Добавить статью</span>
+              <span>{t('header.nav.add-article')}</span>
             </Link>
           ) : (
             <Link href='/signin' className={styles['header__nav-link']}>
-              Логин
+              {t('header.nav.login')}
             </Link>
           )}
 
