@@ -9,7 +9,7 @@ interface GetPostsArg {
 export async function getPostsService({
   language,
 }: GetPostsArg): Promise<AxiosResponse<Article[]>> {
-  return await api.get<Article[]>('/posts', {
+  return await api.get<Article[]>('/posts/', {
     headers: {
       Language: language,
     },
