@@ -3,14 +3,18 @@
 @import url('../../node_modules/highlight.js/styles/github-dark.min.css');
 
 :root {
-  --bg-rgb: 250, 250, 255;
+  --bg-color: rgb(250, 250, 255);
+  --text-color: rgb(51, 51, 63);
+  --active-color: rgb(57, 100, 255);
+  --footer-bg-color: rgb(244, 246, 255);
 }
 
-// @media (prefers-color-scheme: dark) {
-//   :root {
-//     --bg-rgb: 51, 51, 63;
-//   }
-// }
+[data-theme='dark'] {
+  --text-color: rgb(255, 255, 255);
+  --bg-color: rgb(51, 51, 63);
+  --active-color: #ffc933;
+  --footer-bg-color: rgb(22, 24, 33);
+}
 
 * {
   box-sizing: border-box;
@@ -21,8 +25,9 @@
 
 html,
 body {
-  background: rgb(var(--bg-rgb));
+  background: var(--bg-color);
   height: 100%;
+  color: var(--text-color);
 }
 
 a {
@@ -50,9 +55,3 @@ pre {
     font-family: 'Jetbrains Mono', monospace !important;
   }
 }
-
-/* @media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-} */

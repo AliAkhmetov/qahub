@@ -6,7 +6,7 @@
   align-items: center;
   z-index: 50;
   margin-inline: auto;
-  background: rgb(250, 250, 255);
+  background: var(--bg-color);
 
   padding: 1.5rem 3rem;
   width: 100%;
@@ -18,7 +18,7 @@
 
   &__logo {
     &-link {
-      color: rgb(51, 51, 63);
+      color: var(--text-color);
       font-weight: 600;
       font-size: 1.5rem;
       line-height: 32px;
@@ -41,7 +41,7 @@
     }
 
     &-link {
-      color: rgb(51, 51, 63);
+      color: var(--text-color);
       font-weight: 400;
       font-size: 1.25rem;
       line-height: 27px;
@@ -49,7 +49,7 @@
       text-align: center;
 
       &.active {
-        color: rgb(57, 100, 255);
+        color: var(--active-color);
         font-weight: 600;
       }
     }
@@ -90,7 +90,7 @@
     }
 
     &-link {
-      color: rgb(51, 51, 63);
+      color: var(--text-color);
       font-weight: 400;
       font-size: 1.25rem;
       line-height: 28px;
@@ -106,7 +106,7 @@
       display: flex;
       column-gap: 0.5rem;
       align-items: center;
-      background: rgb(57, 100, 255);
+      background: var(--active-color);
       padding: 0.5rem 0.75rem;
 
       svg {
@@ -126,7 +126,7 @@
     &-theme {
       display: grid;
       place-items: center;
-      color: rgb(51, 51, 63);
+      color: var(--text-color);
 
       svg {
         flex-shrink: 0;

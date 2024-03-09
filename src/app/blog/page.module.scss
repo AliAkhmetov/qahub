@@ -5,7 +5,7 @@
 
   &__title,
   &__subtitle {
-    color: rgb(51, 51, 63);
+    color: var(--text-color);
     letter-spacing: 0%;
     text-align: center;
   }
@@ -72,11 +72,11 @@
   }
 
   &__button {
-    border: 1px solid rgb(51, 51, 63);
+    border: 1px solid var(--text-color);
     border-radius: 0.5rem;
     padding: 0.5rem 1.25rem;
 
-    color: rgb(51, 51, 63);
+    color: var(--text-color);
     font-weight: 600;
     font-size: 0.875rem;
     line-height: 20px;
@@ -87,7 +87,7 @@
     display: flex;
     align-items: center;
     gap: 1rem;
-    border: 1px solid rgb(51, 51, 63);
+    border: 1px solid var(--text-color);
     border-radius: 0.5rem;
     padding: 0.5rem 1.25rem;
 
@@ -99,7 +99,7 @@
     select {
       appearance: none;
 
-      color: rgb(51, 51, 63);
+      color: var(--text-color);
       font-weight: 600;
       font-size: 0.875rem;
       line-height: 20px;
@@ -115,6 +115,7 @@
       flex-shrink: 0;
       width: 1.125rem;
       height: 1.125rem;
+      color: var(--text-color);
 
       @media (max-width: 768px) {
         width: 0.875rem;

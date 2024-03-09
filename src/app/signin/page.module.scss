@@ -21,7 +21,7 @@
   }
 
   &__title {
-    color: rgb(51, 51, 63);
+    color: var(--text-color);
     font-weight: 600;
     font-size: 2.25rem;
     line-height: 40px;
@@ -60,7 +60,7 @@
     }
 
     span {
-      color: rgb(51, 51, 63);
+      color: var(--text-color);
     }
 
     a {
@@ -76,7 +76,7 @@
     margin-inline: auto;
 
     border-radius: 0.25rem;
-    background: rgb(57, 100, 255);
+    background: var(--active-color);
     padding: 0.625rem;
 
     width: 100%;
@@ -145,7 +145,7 @@
     }
 
     span {
-      color: rgb(51, 51, 63);
+      color: var(--text-color);
       font-weight: 600;
       font-size: 1rem;
       line-height: 40px;
