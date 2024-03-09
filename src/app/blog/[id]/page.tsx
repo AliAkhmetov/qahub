@@ -351,15 +351,17 @@ export default function ID() {
             <div className={styles['comments']}>
               <p className={styles['comments__title']}>Комментарии</p>
 
-              <div className={styles['comments__field']}>
-                <div className={styles['comments__field-image']}></div>
+              {isAuth && (
+                <div className={styles['comments__field']}>
+                  <div className={styles['comments__field-image']}></div>
 
-                <input
-                  type='text'
-                  placeholder='Оставить комментарий'
-                  className={styles['comments__field-input']}
-                />
-              </div>
+                  <input
+                    type='text'
+                    placeholder='Оставить комментарий'
+                    className={styles['comments__field-input']}
+                  />
+                </div>
+              )}
 
               <div className={styles['comments__list']}>
                 <div className={styles['comment']}>
