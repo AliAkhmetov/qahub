@@ -7,27 +7,34 @@ const apiClient = axios.create({
   withCredentials: true,
 });
 
-// apiClient.interceptors.request.use((config) => {
-//   const token = localStorage.getItem('token');
+apiClient.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token');
 
-//   if (token) {
-//     const parsedToken = JSON.parse(token);
-//     config.headers.Authorization = `Bearer ${parsedToken.access}`;
-//   }
+  if (token) {
+    const parsedToken = JSON.parse(token);
+    config.headers.Authorization = `Bearer ${parsedToken.access}`;
+  }
 
-//   return config;
-// });
+  return config;
+});
 
-// apiClient.interceptors.response.use(
-//   (response) => {
-//     return response;
-//   },
-//   async (error) => {
-//     // if (error.response.status === 401) {
-//     // redirect('/signin');
-//     // }
-//     return Promise.reject(error);
-//   },
-// );
+apiClient.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  async (error) => {
+    const originalRequest = error.config;
+
+    if (!error || !error.response || !error.response.status) return;
+
+    if (error.response.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
+      window.location.href = '/signin';
+
+      return apiClient(originalRequest);
+    }
+  },
+);
 
 export default apiClient;

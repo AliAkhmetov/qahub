@@ -79,7 +79,7 @@
       flex-flow: column;
       z-index: 50;
 
-      background: rgb(250, 250, 255);
+      background: var(--bg-color);
       padding-top: 2rem;
       width: 100%;
       height: 100%;
@@ -144,6 +144,7 @@
       flex-shrink: 0;
       width: 1.625rem;
       height: 0.875rem;
+      color: var(--text-color);
     }
 
     @media (max-width: 768px) {

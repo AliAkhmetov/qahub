@@ -4,13 +4,16 @@ import hljs from 'highlight.js';
 import dayjs from 'dayjs';
 import dynamic from 'next/dynamic';
 import { useParams } from 'next/navigation';
-import { getPostByIdService } from '@/services/post/posts';
+import { deletePostService, getPostByIdService, updatePostService } from '@/services/post/posts';
 import { useEffect, useState } from 'react';
 import type { Article } from '@/types';
 
 import Header from '@/components/Header/Header';
 import styles from './page.module.scss';
 import 'react-quill/dist/quill.snow.css';
+import { useMutation } from 'react-query';
+import { useAuthStore } from '@/store/auth';
+import { dislikeService, likeService } from '@/services/post/action';
 
 const ReactQuill = dynamic(
   () => {
@@ -55,6 +58,26 @@ const formats = [
 export default function ID() {
   const params = useParams();
 
+  const { token, isAuth } = useAuthStore();
+  const updatePost = useMutation({
+    mutationKey: ['updatePost'],
+    mutationFn: updatePostService,
+  });
+  const deletePost = useMutation({
+    mutationKey: ['deletePost'],
+    mutationFn: deletePostService,
+  });
+
+  const like = useMutation({
+    mutationKey: ['like'],
+    mutationFn: likeService,
+  });
+
+  const dislike = useMutation({
+    mutationKey: ['dislike'],
+    mutationFn: dislikeService,
+  });
+
   const [isEditable, setIsEditable] = useState(false);
   const [formData, setFormData] = useState<Partial<Article>>();
 
@@ -62,11 +85,38 @@ export default function ID() {
     setIsEditable(true);
   };
 
-  const handleUpdate = () => {};
+  const handleUpdate = async () => {
+    if (!formData) return;
+
+    updatePost.mutateAsync({ formData, access: token.access }).then((data) => {
+      console.log(data.data);
+    });
+  };
 
   const handleDelete = async () => {
-    try {
-    } catch (error) {}
+    // try {
+    if (!formData || !formData.id) return;
+
+    deletePost.mutateAsync({ id: formData.id, access: token.access }).then((data) => {
+      console.log(data.data);
+    });
+    // } catch (error) {}
+  };
+
+  const handleLike = async () => {
+    if (!formData || !formData.id) return;
+
+    like.mutateAsync({ id: formData.id, access: token.access }).then((data) => {
+      console.log(data.data);
+    });
+  };
+
+  const handleDislike = async () => {
+    if (!formData || !formData.id) return;
+
+    dislike.mutateAsync({ id: formData.id, access: token.access }).then((data) => {
+      console.log(data.data);
+    });
   };
 
   useEffect(() => {
@@ -83,30 +133,19 @@ export default function ID() {
         <p>Загрузка поста...</p>
       ) : (
         <article className={styles['article']}>
-          {!isEditable && (
+          {isAuth && !isEditable && (
             <div className={styles['article-actions']}>
               <button
                 onClick={() => handleEdit()}
-                className={styles['article-actions__button']}
+                className={styles['acticle-actions__button']}
                 type='button'
               >
                 <svg width='24.000000' height='24.000000' viewBox='0 0 24 24' fill='none'>
-                  <defs>
-                    <clipPath id='clip157_2715'>
-                      <rect
-                        id='Icon/Pencil'
-                        width='24.000000'
-                        height='24.000000'
-                        fill='white'
-                        fillOpacity='0'
-                      />
-                    </clipPath>
-                  </defs>
                   <g clipPath='url(#clip157_2715)'>
                     <path
                       id='Vector'
                       d='M8 20L18.5 9.5C19.0312 8.9696 19.3281 8.25024 19.3281 7.5C19.3281 6.74988 19.0312 6.03052 18.5 5.5C17.9688 4.9696 17.25 4.67163 16.5 4.67163C15.75 4.67163 15.0312 4.9696 14.5 5.5L4 16L4 20L8 20Z'
-                      stroke='#33333F'
+                      stroke='currentColor'
                       strokeOpacity='1.000000'
                       strokeWidth='1.500000'
                       strokeLinejoin='round'
@@ -114,7 +153,7 @@ export default function ID() {
                     <path
                       id='Vector'
                       d='M13.5 6.5L17.5 10.5'
-                      stroke='#33333F'
+                      stroke='currentColor'
                       strokeOpacity='1.000000'
                       strokeWidth='1.500000'
                       strokeLinejoin='round'
@@ -130,22 +169,11 @@ export default function ID() {
                 type='button'
               >
                 <svg width='24.000000' height='24.000000' viewBox='0 0 24 24' fill='none'>
-                  <defs>
-                    <clipPath id='clip157_2719'>
-                      <rect
-                        id='Icon/Trash'
-                        width='24.000000'
-                        height='24.000000'
-                        fill='white'
-                        fillOpacity='0'
-                      />
-                    </clipPath>
-                  </defs>
                   <g clipPath='url(#clip157_2719)'>
                     <path
                       id='Vector'
                       d='M4 7L20 7'
-                      stroke='#33333F'
+                      stroke='currentColor'
                       strokeOpacity='1.000000'
                       strokeWidth='1.500000'
                       strokeLinejoin='round'
@@ -154,7 +182,7 @@ export default function ID() {
                     <path
                       id='Vector'
                       d='M10 11L10 17'
-                      stroke='#33333F'
+                      stroke='currentColor'
                       strokeOpacity='1.000000'
                       strokeWidth='1.500000'
                       strokeLinejoin='round'
@@ -163,7 +191,7 @@ export default function ID() {
                     <path
                       id='Vector'
                       d='M14 11L14 17'
-                      stroke='#33333F'
+                      stroke='currentColor'
                       strokeOpacity='1.000000'
                       strokeWidth='1.500000'
                       strokeLinejoin='round'
@@ -172,7 +200,7 @@ export default function ID() {
                     <path
                       id='Vector'
                       d='M5 7L6 19C6 19.5304 6.21094 20.0392 6.58594 20.4142C6.96094 20.7893 7.46875 21 8 21L16 21C16.5312 21 17.0391 20.7893 17.4141 20.4142C17.7891 20.0392 18 19.5304 18 19L19 7'
-                      stroke='#33333F'
+                      stroke='currentColor'
                       strokeOpacity='1.000000'
                       strokeWidth='1.500000'
                       strokeLinejoin='round'
@@ -181,7 +209,7 @@ export default function ID() {
                     <path
                       id='Vector'
                       d='M9 7L9 4C9 3.73474 9.10547 3.48047 9.29297 3.29285C9.48047 3.10535 9.73438 3 10 3L14 3C14.2656 3 14.5195 3.10535 14.707 3.29285C14.8945 3.48047 15 3.73474 15 4L15 7'
-                      stroke='#33333F'
+                      stroke='currentColor'
                       strokeOpacity='1.000000'
                       strokeWidth='1.500000'
                       strokeLinejoin='round'
@@ -211,7 +239,7 @@ export default function ID() {
                 placeholder='Ссылка на изображение'
                 value={formData.imageLink}
                 onChange={({ target: { value } }) =>
-                  setFormData((prev) => ({ ...prev, image: value }))
+                  setFormData((prev) => ({ ...prev, imageLink: value }))
                 }
               />
 
@@ -273,6 +301,75 @@ export default function ID() {
               dangerouslySetInnerHTML={{ __html: formData.content || '' }}
               className={styles['article-content']}
             />
+          )}
+
+          {!isEditable && (
+            <div className={styles['article-like']}>
+              <button type='button' onClick={handleLike} className={styles['article-like__button']}>
+                <svg
+                  xmlns='http://www.w3.org/2000/svg'
+                  fill='none'
+                  viewBox='0 0 24 24'
+                  strokeWidth={1.5}
+                  stroke='currentColor'
+                >
+                  <path
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    d='M6.633 10.25c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 0 1 2.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 0 0 .322-1.672V2.75a.75.75 0 0 1 .75-.75 2.25 2.25 0 0 1 2.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282m0 0h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 0 1-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 0 0-1.423-.23H5.904m10.598-9.75H14.25M5.904 18.5c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 0 1-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 9.953 4.167 9.5 5 9.5h1.053c.472 0 .745.556.5.96a8.958 8.958 0 0 0-1.302 4.665c0 1.194.232 2.333.654 3.375Z'
+                  />
+                </svg>
+
+                <span>{formData.likes}</span>
+              </button>
+
+              <button
+                type='button'
+                onClick={handleDislike}
+                className={styles['article-like__button']}
+              >
+                <svg
+                  xmlns='http://www.w3.org/2000/svg'
+                  fill='none'
+                  viewBox='0 0 24 24'
+                  strokeWidth={1.5}
+                  stroke='currentColor'
+                >
+                  <path
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    d='M7.498 15.25H4.372c-1.026 0-1.945-.694-2.054-1.715a12.137 12.137 0 0 1-.068-1.285c0-2.848.992-5.464 2.649-7.521C5.287 4.247 5.886 4 6.504 4h4.016a4.5 4.5 0 0 1 1.423.23l3.114 1.04a4.5 4.5 0 0 0 1.423.23h1.294M7.498 15.25c.618 0 .991.724.725 1.282A7.471 7.471 0 0 0 7.5 19.75 2.25 2.25 0 0 0 9.75 22a.75.75 0 0 0 .75-.75v-.633c0-.573.11-1.14.322-1.672.304-.76.93-1.33 1.653-1.715a9.04 9.04 0 0 0 2.86-2.4c.498-.634 1.226-1.08 2.032-1.08h.384m-10.253 1.5H9.7m8.075-9.75c.01.05.027.1.05.148.593 1.2.925 2.55.925 3.977 0 1.487-.36 2.89-.999 4.125m.023-8.25c-.076-.365.183-.75.575-.75h.908c.889 0 1.713.518 1.972 1.368.339 1.11.521 2.287.521 3.507 0 1.553-.295 3.036-.831 4.398-.306.774-1.086 1.227-1.918 1.227h-1.053c-.472 0-.745-.556-.5-.96a8.95 8.95 0 0 0 .303-.54'
+                  />
+                </svg>
+
+                <span>{formData.dislikes}</span>
+              </button>
+            </div>
+          )}
+
+          {!isEditable && (
+            <div className={styles['comments']}>
+              <p className={styles['comments__title']}>Комментарии</p>
+
+              <div className={styles['comments__field']}>
+                <div className={styles['comments__field-image']}></div>
+
+                <input
+                  type='text'
+                  placeholder='Оставить комментарий'
+                  className={styles['comments__field-input']}
+                />
+              </div>
+
+              <div className={styles['comments__list']}>
+                <div className={styles['comment']}>
+                  <div className={styles['comment__image']}></div>
+
+                  <p className={styles['comment__name']}>Али Ахметов</p>
+                  <p className={styles['comment__content']}>Хорошая статья! Спасибо за труд</p>
+                </div>
+              </div>
+            </div>
           )}
         </article>
       )}

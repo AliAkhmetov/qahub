@@ -9,7 +9,7 @@ interface GetPostsArg {
 export async function getPostsService({
   language,
 }: GetPostsArg): Promise<AxiosResponse<Article[]>> {
-  return await api.get<Article[]>('/posts/', {
+  return await api.get<Article[]>('/posts', {
     headers: {
       Language: language,
     },
@@ -39,6 +39,28 @@ interface Arg {
 
 export async function createPostService({ formData, access }: Arg): Promise<AxiosResponse> {
   return await api.post('/api/posts/', formData, {
+    headers: {
+      Authorization: `Bearer ${access}`,
+    },
+  });
+}
+
+export async function updatePostService({ formData, access }: Arg): Promise<AxiosResponse> {
+  return await api.put(`/api/posts/${formData.id}`, formData, {
+    headers: {
+      Authorization: `Bearer ${access}`,
+    },
+  });
+}
+
+export async function deletePostService({
+  id,
+  access,
+}: {
+  id: string | number;
+  access: string;
+}): Promise<AxiosResponse> {
+  return await api.delete(`/api/posts/${id}`, {
     headers: {
       Authorization: `Bearer ${access}`,
     },

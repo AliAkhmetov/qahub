@@ -31,9 +31,11 @@ export default function Header() {
     setTheme((prev) => {
       if (prev === 'dark') {
         document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
         return 'light';
       }
 
+      localStorage.setItem('theme', 'light');
       document.documentElement.setAttribute('data-theme', 'light');
       return 'dark';
     });
@@ -42,6 +44,9 @@ export default function Header() {
   useEffect(() => {
     const lang = localStorage.getItem('lang');
     if (lang) handleChangeLanguage(lang);
+
+    const theme = localStorage.getItem('theme');
+    if (theme) document.documentElement.setAttribute('data-theme', theme);
   }, []);
 
   return (
@@ -134,7 +139,7 @@ export default function Header() {
                 width='24.000000'
                 height='2.000000'
                 transform='rotate(-45 0.192383 17.162994)'
-                fill='#33333F'
+                fill='currentColor'
                 fillOpacity='1.000000'
               />
               <rect
@@ -143,7 +148,7 @@ export default function Header() {
                 width='24.000000'
                 height='2.000000'
                 transform='rotate(45 1.414062 0.000000)'
-                fill='#33333F'
+                fill='currentColor'
                 fillOpacity='1.000000'
               />
             </svg>
@@ -153,7 +158,7 @@ export default function Header() {
                 rx='1.000000'
                 width='24.000000'
                 height='2.000000'
-                fill='#33333F'
+                fill='currentColor'
                 fillOpacity='1.000000'
               />
               <rect
@@ -161,7 +166,7 @@ export default function Header() {
                 rx='1.000000'
                 width='24.000000'
                 height='2.000000'
-                fill='#33333F'
+                fill='currentColor'
                 fillOpacity='1.000000'
               />
               <rect
@@ -169,7 +174,7 @@ export default function Header() {
                 rx='1.000000'
                 width='24.000000'
                 height='2.000000'
-                fill='#33333F'
+                fill='currentColor'
                 fillOpacity='1.000000'
               />
             </svg>
