@@ -51,7 +51,14 @@ export default function ID() {
   };
 
   const handleDelete = async () => {
+    const auth = localStorage.getItem('auth');
+
     if (!formData || !formData.id) return;
+    if (!auth) return;
+
+    const authParsed = JSON.parse(auth);
+
+    if (!authParsed.state.isAuth) return router.push('/signin');
 
     deletePostById({ id: formData.id, access: token.access }).then(() => {
       router.push('/blog');
@@ -59,47 +66,104 @@ export default function ID() {
   };
 
   const handleLike = async () => {
-    if (!formData || !formData.id) return;
-    if (formData.likedByMe) return;
+    const auth = localStorage.getItem('auth');
 
-    like({ formData: { postId: formData.id, type: true }, access: token.access }).then(() => {
-      if (formData.dislikedByMe) {
-        setFormData(({ dislikes, likes, ...prev }: any) => ({
-          ...prev,
-          dislikedByMe: false,
-          dislikes: dislikes - 1,
-          likedByMe: true,
-          likes: likes + 1,
-        }));
-      } else {
-        setFormData(({ likes, ...prev }: any) => ({
-          ...prev,
-          likedByMe: true,
-          likes: likes + 1,
-        }));
-      }
-    });
+    if (!formData || !formData.id) return;
+    if (!auth) return;
+
+    const authParsed = JSON.parse(auth);
+
+    if (!authParsed.state.isAuth) return router.push('/signin');
+
+    if (formData.likedByMe) {
+      // Если я поставил лайк, то убираем лайк
+
+      like({ formData: { postId: formData.id, type: true }, access: token.access });
+      setFormData(({ likes, likedByMe, ...prev }: any) => ({
+        ...prev,
+        likes: likes - 1,
+        likedByMe: false,
+      }));
+    }
+
+    if (formData.dislikedByMe) {
+      like({ formData: { postId: formData.id, type: false }, access: token.access });
+
+      setFormData(({ dislikes, likes, dislikedByMe, likedByMe, ...prev }: any) => ({
+        ...prev,
+        likes: likes + 1,
+        likedByMe: true,
+        dislikes: dislikes - 1,
+        dislikedByMe: false,
+      }));
+    }
+
+    if (!formData.likedByMe && !formData.dislikedByMe) {
+      like({ formData: { postId: formData.id, type: true }, access: token.access });
+
+      setFormData(({ likes, likedByMe, ...prev }: any) => ({
+        ...prev,
+        likes: likes + 1,
+        likedByMe: true,
+      }));
+    }
   };
 
   const handleDislike = async () => {
-    if (!formData || !formData.id) return;
-    if (formData.dislikedByMe) return;
+    const auth = localStorage.getItem('auth');
 
-    like({ formData: { postId: formData.id, type: false }, access: token.access }).then(() => {
-      setFormData(({ dislikes, likes, ...prev }: any) => ({
+    if (!formData || !formData.id) return;
+    if (!auth) return;
+
+    const authParsed = JSON.parse(auth);
+
+    if (!authParsed.state.isAuth) return router.push('/signin');
+
+    if (formData.dislikedByMe) {
+      // Если я поставил дизлайк, то убираем дизлайк
+
+      like({ formData: { postId: formData.id, type: false }, access: token.access });
+      setFormData(({ dislikes, dislikedByMe, ...prev }: any) => ({
         ...prev,
-        dislikedByMe: true,
-        dislikes: dislikes + 1,
-        likedByMe: false,
-        likes: likes - 1,
+        dislikes: dislikes - 1,
+        dislikedByMe: false,
       }));
-    });
+    }
+
+    if (formData.likedByMe) {
+      like({ formData: { postId: formData.id, type: true }, access: token.access });
+
+      setFormData(({ dislikes, likes, dislikedByMe, likedByMe, ...prev }: any) => ({
+        ...prev,
+        likes: likes - 1,
+        likedByMe: false,
+        dislikes: dislikes + 1,
+        dislikedByMe: true,
+      }));
+    }
+
+    if (!formData.likedByMe && !formData.dislikedByMe) {
+      like({ formData: { postId: formData.id, type: false }, access: token.access });
+
+      setFormData(({ dislikes, ...prev }: any) => ({
+        ...prev,
+        dislikes: dislikes + 1,
+        dislikedByMe: true,
+      }));
+    }
   };
 
   const handleComment = async (event: any) => {
     event.preventDefault();
 
+    const auth = localStorage.getItem('auth');
+
     if (!formData || !formData.id) return;
+    if (!auth) return;
+
+    const authParsed = JSON.parse(auth);
+
+    if (!authParsed.state.isAuth) return router.push('/signin');
 
     comment({
       access: token.access,
@@ -114,17 +178,17 @@ export default function ID() {
   const getArticle = async ({ language }: { language: string }) => {
     const auth = localStorage.getItem('auth');
     if (!params.id) return;
+    if (!auth) return;
 
-    if (!auth) {
+    const authParsed = JSON.parse(auth);
+
+    if (!authParsed.state.isAuth)
       return getPostById({ language: language, postId: params.id.toString() }).then((response) => {
         if (response.status === 200) {
           setFormData(response.data.post_info);
           setComments(response.data.comments);
         }
       });
-    }
-
-    const authParsed = JSON.parse(auth);
 
     return getAuthPostById({
       postId: params.id.toString(),
