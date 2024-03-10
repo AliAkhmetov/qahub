@@ -41,9 +41,9 @@ export default function Create() {
         content: formData.content,
         imageLink: formData.imageLink,
         categoriesInt: formData.categoriesInt,
+        language: formData.language,
         readTime: Number(formData.readTime),
       },
-      language: formData.language,
       access: parsedAuth.state.token.access,
     });
 

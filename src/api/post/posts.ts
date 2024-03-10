@@ -63,34 +63,27 @@ export async function getAuthPostById({
   });
 }
 
-interface CreatePostArg {
+interface CreatePostFormData extends Partial<Article> {
   language: string;
-  access: string;
-  formData: Partial<Article>;
 }
 
-export async function createPost({
-  formData,
-  language,
-  access,
-}: CreatePostArg): Promise<AxiosResponse> {
+interface CreatePostArg {
+  access: string;
+  formData: CreatePostFormData;
+}
+
+export async function createPost({ formData, access }: CreatePostArg): Promise<AxiosResponse> {
   return await api.post('/api/posts/', formData, {
     headers: {
       Authorization: `Bearer ${access}`,
-      Language: language,
     },
   });
 }
 
-export async function updatePostById({
-  formData,
-  access,
-  language,
-}: CreatePostArg): Promise<AxiosResponse> {
+export async function updatePostById({ formData, access }: CreatePostArg): Promise<AxiosResponse> {
   return await api.put(`/api/posts/${formData.id}`, formData, {
     headers: {
       Authorization: `Bearer ${access}`,
-      Language: language,
     },
   });
 }

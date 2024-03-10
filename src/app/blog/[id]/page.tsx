@@ -45,7 +45,10 @@ export default function ID() {
   const handleUpdate = async () => {
     if (!formData || !formData.language) return;
 
-    updatePostById({ formData, access: token.access, language: formData.language }).then(() => {
+    updatePostById({
+      formData: { ...formData, language: formData.language },
+      access: token.access,
+    }).then(() => {
       setIsEditable(false);
     });
   };
