@@ -15,7 +15,6 @@ import { useSettingsStore } from '@/store/settings';
 export default function Blog() {
   const [articles, setArticles] = useState<ArticleType[]>([]);
   const [filteredArticles, setFilteredArticles] = useState<ArticleType[]>([]);
-  const [filterId, setFilterId] = useState<number>(0);
 
   const { language } = useSettingsStore();
 
@@ -50,14 +49,22 @@ export default function Blog() {
 
     const authParsed = JSON.parse(auth);
 
-    return getAuthPosts({ language: language, access: authParsed.state.token.access }).then(
-      (response) => {
-        if (response.status === 200) {
-          setArticles(response.data);
-          setFilteredArticles(response.data);
-        }
-      },
-    );
+    if (authParsed.state.isAuth)
+      return getAuthPosts({ language: language, access: authParsed.state.token.access }).then(
+        (response) => {
+          if (response.status === 200) {
+            setArticles(response.data);
+            setFilteredArticles(response.data);
+          }
+        },
+      );
+
+    return getPosts({ language: language }).then((response) => {
+      if (response.status === 200) {
+        setArticles(response.data);
+        setFilteredArticles(response.data);
+      }
+    });
   };
 
   useEffect(() => {
