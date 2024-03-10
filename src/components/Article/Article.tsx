@@ -13,33 +13,6 @@ export function Article({ article, href }: ArticleProps) {
 
       <Link href={href} className={styles['article__title']}>
         <span>{article.title}</span>
-
-        <svg viewBox='0 0 30 24' fill='none'>
-          <path
-            d='M19.7139 4L26 12'
-            stroke='currentColor'
-            strokeOpacity='1.000000'
-            strokeWidth='2.000000'
-            strokeLinejoin='round'
-            strokeLinecap='round'
-          />
-          <path
-            d='M4 12L26 12'
-            stroke='currentColor'
-            strokeOpacity='1.000000'
-            strokeWidth='2.000000'
-            strokeLinejoin='round'
-            strokeLinecap='round'
-          />
-          <path
-            d='M19.7139 20L26 12'
-            stroke='currentColor'
-            strokeOpacity='1.000000'
-            strokeWidth='2.000000'
-            strokeLinejoin='round'
-            strokeLinecap='round'
-          />
-        </svg>
       </Link>
 
       <div className={styles['article__footer']}>
