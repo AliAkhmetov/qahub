@@ -1,7 +1,7 @@
 'use client';
 
 import { i18n } from '@/i18n';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { getAuthPosts, getPosts } from '@/api/post/posts';
 import { Article as ArticleType } from '@/types';
 
@@ -19,33 +19,32 @@ export default function Blog() {
 
   const { language } = useSettingsStore();
 
-  const handleFilterArticles = (filterId: number) => {
-    /**
-     * filterId:
-     * 0 - Все
-     * 1 - Теория
-     * 2 - Инструменты
-     * 3 - Интервью
-     * 4 - Прочее
-     */
+  const handleFilterArticles = useCallback(
+    (filterId: number) => {
+      /**
+       * filterId:
+       * 0 - Все
+       * 1 - Теория
+       * 2 - Инструменты
+       * 3 - Интервью
+       * 4 - Прочее
+       */
 
-    if (filterId === 0) return setFilteredArticles([]);
-    setFilteredArticles(
-      articles.filter((article) => {
-        if (article.categoriesInt) {
-          return article.categoriesInt.includes(filterId);
-        }
-        return articles;
-      }),
-    );
-  };
+      if (filterId === 0) return setFilteredArticles(articles);
+      setFilteredArticles(articles.filter((article) => article.categoriesInt.includes(filterId)));
+    },
+    [articles],
+  );
 
   const getArticles = async ({ language }: { language: string }) => {
     const auth = localStorage.getItem('auth');
 
     if (!auth) {
       return getPosts({ language: language }).then((response) => {
-        if (response.status === 200) setArticles(response.data);
+        if (response.status === 200) {
+          setArticles(response.data);
+          setFilteredArticles(response.data);
+        }
       });
     }
 
@@ -53,7 +52,10 @@ export default function Blog() {
 
     return getAuthPosts({ language: language, access: authParsed.state.token.access }).then(
       (response) => {
-        if (response.status === 200) setArticles(response.data);
+        if (response.status === 200) {
+          setArticles(response.data);
+          setFilteredArticles(response.data);
+        }
       },
     );
   };
@@ -134,11 +136,7 @@ export default function Blog() {
                 <Article href={`/blog/${article.id}`} article={article} key={article.id} />
               ))
           ) : (
-            articles
-              .reverse()
-              .map((article) => (
-                <Article href={`/blog/${article.id}`} article={article} key={article.id} />
-              ))
+            <p>Не найдено!</p>
           )}
         </div>
       </section>
