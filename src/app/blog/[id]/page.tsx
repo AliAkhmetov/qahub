@@ -38,6 +38,29 @@ export default function ID() {
   const [comments, setComments] = useState<any[] | null>(null);
   const [commentField, setCommentField] = useState('');
 
+  const handleCategoriesInt = ({ checked, value }: { checked: boolean; value: number }) => {
+    if (checked)
+      return setFormData((prev) => {
+        if (prev?.categoriesInt)
+          ({
+            ...prev,
+            categoriesInt: [...prev.categoriesInt, value],
+          });
+
+        return prev;
+      });
+
+    return setFormData((prev) => {
+      if (prev?.categoriesInt)
+        return {
+          ...prev,
+          categoriesInt: prev.categoriesInt.filter((item) => item !== value),
+        };
+
+      return prev;
+    });
+  };
+
   const handleEdit = async () => {
     setIsEditable(true);
   };
@@ -279,6 +302,56 @@ export default function ID() {
                   setFormData((prev) => ({ ...prev, language: value }))
                 }
               />
+
+              <div className={styles['editor-fields__categories-int']}>
+                <label>
+                  <span>Теория</span>
+                  <input
+                    type='checkbox'
+                    value={1}
+                    checked={formData.categoriesInt?.includes(1)}
+                    onChange={({ target: { checked } }) =>
+                      handleCategoriesInt({ checked, value: 1 })
+                    }
+                  />
+                </label>
+
+                <label>
+                  <span>Инструменты</span>
+                  <input
+                    type='checkbox'
+                    value={2}
+                    checked={formData.categoriesInt?.includes(2)}
+                    onChange={({ target: { checked } }) =>
+                      handleCategoriesInt({ checked, value: 2 })
+                    }
+                  />
+                </label>
+
+                <label>
+                  <span>Интервью</span>
+                  <input
+                    type='checkbox'
+                    value={3}
+                    checked={formData.categoriesInt?.includes(3)}
+                    onChange={({ target: { checked } }) =>
+                      handleCategoriesInt({ checked, value: 3 })
+                    }
+                  />
+                </label>
+
+                <label>
+                  <span>Прочее</span>
+                  <input
+                    type='checkbox'
+                    value={4}
+                    checked={formData.categoriesInt?.includes(4)}
+                    onChange={({ target: { checked } }) =>
+                      handleCategoriesInt({ checked, value: 4 })
+                    }
+                  />
+                </label>
+              </div>
             </div>
           )}
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createPost } from '@/api/post/posts';
 
@@ -15,18 +15,31 @@ interface FormData {
   imageLink: string;
   readTime: string;
   language: string;
-  categoriesInt: number[];
+  categoriesInt: number[] | [];
 }
 
 export default function Create() {
   const router = useRouter();
 
   const [formData, setFormData] = useState<FormData>({
-    categoriesInt: [1, 3],
+    categoriesInt: [],
   } as FormData);
 
   const handleUpdateFormData = (formData: { [key: string]: string }) => {
     setFormData((prev) => ({ ...prev, ...formData }));
+  };
+
+  const handleCategoriesInt = ({ checked, value }: { checked: boolean; value: number }) => {
+    if (checked)
+      return setFormData((prev) => ({
+        ...prev,
+        categoriesInt: [...prev.categoriesInt, value],
+      }));
+
+    return setFormData((prev) => ({
+      ...prev,
+      categoriesInt: prev.categoriesInt.filter((item) => item !== value),
+    }));
   };
 
   const handleCreatePost = async () => {
@@ -90,6 +103,44 @@ export default function Create() {
             value={formData.language}
             onChange={({ target: { value } }) => handleUpdateFormData({ language: value })}
           />
+
+          <div className={styles['editor-fields__categories-int']}>
+            <label>
+              <span>Теория</span>
+              <input
+                type='checkbox'
+                value={1}
+                onChange={({ target: { checked } }) => handleCategoriesInt({ checked, value: 1 })}
+              />
+            </label>
+
+            <label>
+              <span>Инструменты</span>
+              <input
+                type='checkbox'
+                value={2}
+                onChange={({ target: { checked } }) => handleCategoriesInt({ checked, value: 2 })}
+              />
+            </label>
+
+            <label>
+              <span>Интервью</span>
+              <input
+                type='checkbox'
+                value={3}
+                onChange={({ target: { checked } }) => handleCategoriesInt({ checked, value: 3 })}
+              />
+            </label>
+
+            <label>
+              <span>Прочее</span>
+              <input
+                type='checkbox'
+                value={4}
+                onChange={({ target: { checked } }) => handleCategoriesInt({ checked, value: 4 })}
+              />
+            </label>
+          </div>
         </div>
 
         <Editor

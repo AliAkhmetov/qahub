@@ -14,8 +14,31 @@ import { useSettingsStore } from '@/store/settings';
 
 export default function Blog() {
   const [articles, setArticles] = useState<ArticleType[]>([]);
+  const [filteredArticles, setFilteredArticles] = useState<ArticleType[]>([]);
+  const [filterId, setFilterId] = useState<number>(0);
 
   const { language } = useSettingsStore();
+
+  const handleFilterArticles = (filterId: number) => {
+    /**
+     * filterId:
+     * 0 - Все
+     * 1 - Теория
+     * 2 - Инструменты
+     * 3 - Интервью
+     * 4 - Прочее
+     */
+
+    if (filterId === 0) return setFilteredArticles([]);
+    setFilteredArticles(
+      articles.filter((article) => {
+        if (article.categoriesInt) {
+          return article.categoriesInt.includes(filterId);
+        }
+        return articles;
+      }),
+    );
+  };
 
   const getArticles = async ({ language }: { language: string }) => {
     const auth = localStorage.getItem('auth');
@@ -51,14 +74,44 @@ export default function Blog() {
 
         <div className={styles['filters']}>
           <div className={styles['filters__left']}>
-            <button type='button' className={styles['filters__button']}>
+            <button
+              type='button'
+              onClick={() => handleFilterArticles(0)}
+              className={styles['filters__button']}
+            >
               Все
             </button>
-            <button type='button' className={styles['filters__button']}>
+
+            <button
+              type='button'
+              onClick={() => handleFilterArticles(1)}
+              className={styles['filters__button']}
+            >
+              Теория
+            </button>
+
+            <button
+              type='button'
+              onClick={() => handleFilterArticles(2)}
+              className={styles['filters__button']}
+            >
               Инструменты
             </button>
-            <button type='button' className={styles['filters__button']}>
+
+            <button
+              type='button'
+              onClick={() => handleFilterArticles(3)}
+              className={styles['filters__button']}
+            >
               Интервью
+            </button>
+
+            <button
+              type='button'
+              onClick={() => handleFilterArticles(4)}
+              className={styles['filters__button']}
+            >
+              Прочее
             </button>
           </div>
 
@@ -74,6 +127,12 @@ export default function Blog() {
         <div className={styles['articles']}>
           {!articles.length ? (
             <p>Загрузка постов...</p>
+          ) : filteredArticles.length ? (
+            filteredArticles
+              .reverse()
+              .map((article) => (
+                <Article href={`/blog/${article.id}`} article={article} key={article.id} />
+              ))
           ) : (
             articles
               .reverse()

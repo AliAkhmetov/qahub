@@ -66,6 +66,25 @@
       font-size: 1.25rem;
       line-height: 22px;
     }
+
+    &__categories-int {
+      display: flex;
+      column-gap: 1rem;
+      align-items: center;
+
+      span {
+        color: var(--text-color);
+        font-weight: 300;
+        font-size: 1.125rem;
+        line-height: 28px;
+      }
+
+      label {
+        display: flex;
+        column-gap: 0.25rem;
+        align-items: center;
+      }
+    }
   }
 
   &-actions {
