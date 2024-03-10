@@ -1,4 +1,4 @@
-import api from '@/services';
+import api from '@/api';
 import type { AxiosResponse } from 'axios';
 
 export interface FormData {

@@ -1,19 +1,43 @@
 'use client';
 
 import { i18n } from '@/i18n';
-import { useQuery } from 'react-query';
-import { getPostsService } from '@/services/post/posts';
+import { useEffect, useState } from 'react';
+import { getAuthPosts, getPosts } from '@/api/post/posts';
+import { Article as ArticleType } from '@/types';
 
 import Header from '@/components/Header/Header';
 import { Footer } from '@/components/Footer';
 import { Article } from '@/components/Article';
+import ChevronBottonIcon from '@/assets/icons/chevron-bottom.svg';
 import styles from './page.module.scss';
+import { useSettingsStore } from '@/store/settings';
 
 export default function Blog() {
-  const { isLoading, data: articles } = useQuery({
-    queryKey: ['posts'],
-    queryFn: () => getPostsService({ language: i18n.language }).then((response) => response.data),
-  });
+  const [articles, setArticles] = useState<ArticleType[]>([]);
+
+  const { language } = useSettingsStore();
+
+  const getArticles = async ({ language }: { language: string }) => {
+    const auth = localStorage.getItem('auth');
+
+    if (!auth) {
+      return getPosts({ language: language }).then((response) => {
+        if (response.status === 200) setArticles(response.data);
+      });
+    }
+
+    const authParsed = JSON.parse(auth);
+
+    return getAuthPosts({ language: language, access: authParsed.state.token.access }).then(
+      (response) => {
+        if (response.status === 200) setArticles(response.data);
+      },
+    );
+  };
+
+  useEffect(() => {
+    getArticles({ language });
+  }, [language]);
 
   return (
     <div>
@@ -43,14 +67,12 @@ export default function Blog() {
               <option defaultChecked>Популярное</option>
             </select>
 
-            <svg fill='none' viewBox='0 0 24 24' strokeWidth={1.5} stroke='currentColor'>
-              <path strokeLinecap='round' strokeLinejoin='round' d='m19.5 8.25-7.5 7.5-7.5-7.5' />
-            </svg>
+            <ChevronBottonIcon />
           </div>
         </div>
 
         <div className={styles['articles']}>
-          {isLoading || !articles ? (
+          {!articles.length ? (
             <p>Загрузка постов...</p>
           ) : (
             articles

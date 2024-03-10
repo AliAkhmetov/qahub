@@ -1,14 +1,14 @@
 'use client';
 import { useForm } from 'react-hook-form';
-import type { FormData } from '@/services/auth/signup';
+import { useRouter } from 'next/navigation';
+import { useMutation } from 'react-query';
+import { signupService } from '@/api/auth/signup';
+import type { FormData } from '@/api/auth/signup';
 
 import Link from 'next/link';
-import { Footer } from '@/components/Footer';
 import GoogleIcon from '@/assets/icons/google.svg';
+import { Footer } from '@/components/Footer';
 import styles from './page.module.scss';
-import { useMutation } from 'react-query';
-import { signupService } from '@/services/auth/signup';
-import { useRouter } from 'next/navigation';
 
 export default function Signup() {
   const router = useRouter();

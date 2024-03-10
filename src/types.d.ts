@@ -9,7 +9,9 @@ export interface Article {
   categories: string;
   categoriesInt: number[];
   likes: number;
+  likedByMe: boolean;
   dislikes: number;
+  dislikedByMe: boolean;
   myLikeId: number;
   status: string;
   readTime: number;

@@ -1,95 +1,56 @@
 'use client';
 
-import hljs from 'highlight.js';
-import dynamic from 'next/dynamic';
 import { useState } from 'react';
-import { redirect, useRouter } from 'next/navigation';
-import { useAuthStore } from '@/store/auth';
+import { useRouter } from 'next/navigation';
+import { createPost } from '@/api/post/posts';
 
 import Header from '@/components/Header/Header';
-import 'react-quill/dist/quill.snow.css';
+import { Editor } from '@/components/Editor';
 import styles from './page.module.scss';
-import { useMutation } from 'react-query';
-import { createPostService } from '@/services/post/posts';
+import 'react-quill/dist/quill.snow.css';
 
-const ReactQuill = dynamic(
-  () => {
-    hljs.configure({
-      languages: ['javascript', 'php', 'go', 'css', 'html', 'scss', 'typescript'],
-    });
-    // @ts-ignore
-    window.hljs = hljs;
-    return import('react-quill');
-  },
-  {
-    ssr: false,
-    loading: () => <p>Загрузка текстового редактора...</p>,
-  },
-);
-
-const modules = {
-  syntax: true,
-  toolbar: [
-    [{ header: [2] }],
-    ['bold', 'italic', 'underline', 'strike', 'code-block', 'link'],
-    [{ list: 'ordered' }, { list: 'bullet' }, { indent: '-1' }, { indent: '+1' }],
-    ['image'],
-    ['clean'],
-  ],
-};
-
-const formats = [
-  'header',
-  'bold',
-  'italic',
-  'underline',
-  'strike',
-  'code-block',
-  'link',
-  'list',
-  'bullet',
-  'indent',
-  'image',
-];
+interface FormData {
+  title: string;
+  content: string;
+  imageLink: string;
+  readTime: string;
+  language: string;
+  categoriesInt: number[];
+}
 
 export default function Create() {
   const router = useRouter();
 
-  const [formData, setFormData] = useState({
-    title: '',
-    image: '',
-    content: '',
-    readTime: '',
-    language: '',
-  });
+  const [formData, setFormData] = useState<FormData>({
+    categoriesInt: [1, 3],
+  } as FormData);
 
-  const createPost = useMutation({
-    mutationKey: ['createPost'],
-    mutationFn: createPostService,
-  });
-  const { isAuth, token } = useAuthStore();
+  const handleUpdateFormData = (formData: { [key: string]: string }) => {
+    setFormData((prev) => ({ ...prev, ...formData }));
+  };
 
   const handleCreatePost = async () => {
-    const response = await createPost.mutateAsync({
+    const auth = localStorage.getItem('auth');
+    if (!auth) return router.push('/signin');
+
+    const parsedAuth = JSON.parse(auth);
+
+    const response = await createPost({
       formData: {
         title: formData.title,
         content: formData.content,
-        imageLink: formData.image,
-        categoriesInt: [1, 3],
+        imageLink: formData.imageLink,
+        categoriesInt: formData.categoriesInt,
         readTime: Number(formData.readTime),
       },
       language: formData.language,
-      access: token.access,
+      access: parsedAuth.state.token.access,
     });
 
     if (response.status === 200) {
       return router.push(`/blog/${response.data.id}`);
     }
   };
-
-  // if (!isAuth) {
-  //   return router.back();
-  // }
 
   return (
     <div>
@@ -102,15 +63,15 @@ export default function Create() {
             className={styles['editor-fields__title']}
             placeholder='Заголовок публикации в блоге'
             value={formData.title}
-            onChange={({ target: { value } }) => setFormData((prev) => ({ ...prev, title: value }))}
+            onChange={({ target: { value } }) => handleUpdateFormData({ title: value })}
           />
 
           <input
             type='text'
             className={styles['editor-fields__image']}
             placeholder='Ссылка на изображение'
-            value={formData.image}
-            onChange={({ target: { value } }) => setFormData((prev) => ({ ...prev, image: value }))}
+            value={formData.imageLink}
+            onChange={({ target: { value } }) => handleUpdateFormData({ imageLink: value })}
           />
 
           <input
@@ -119,28 +80,21 @@ export default function Create() {
             className={styles['editor-fields__image']}
             placeholder='Время чтения'
             value={formData.readTime}
-            onChange={({ target: { value } }) =>
-              setFormData((prev) => ({ ...prev, readTime: value }))
-            }
+            onChange={({ target: { value } }) => handleUpdateFormData({ readTime: value })}
           />
 
           <input
             type='text'
             className={styles['editor-fields__image']}
             placeholder='Язык статьи'
-            value={formData.readTime}
-            onChange={({ target: { value } }) =>
-              setFormData((prev) => ({ ...prev, language: value }))
-            }
+            value={formData.language}
+            onChange={({ target: { value } }) => handleUpdateFormData({ language: value })}
           />
         </div>
 
-        <ReactQuill
-          theme='snow'
-          modules={modules}
-          formats={formats}
+        <Editor
           value={formData.content}
-          onChange={(value) => setFormData((prev) => ({ ...prev, content: value }))}
+          onChange={(value) => handleUpdateFormData({ content: value })}
         />
 
         <div className={styles['editor-actions']}>
@@ -151,6 +105,7 @@ export default function Create() {
           >
             Опубликовать
           </button>
+
           <button type='button' className={styles['editor-actions__button-close']}>
             Закрыть
           </button>

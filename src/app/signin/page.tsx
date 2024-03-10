@@ -3,14 +3,14 @@
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { useMutation } from 'react-query';
-import { signinService } from '@/services/auth/signin';
-import type { FormData } from '@/services/auth/signin';
+import { useAuthStore } from '@/store/auth';
+import { signinService } from '@/api/auth/signin';
+import type { FormData } from '@/api/auth/signin';
 
-import { Footer } from '@/components/Footer';
 import Link from 'next/link';
 import GoogleIcon from '@/assets/icons/google.svg';
+import { Footer } from '@/components/Footer';
 import styles from './page.module.scss';
-import { useAuthStore } from '@/store/auth';
 
 export default function Signin() {
   const router = useRouter();
