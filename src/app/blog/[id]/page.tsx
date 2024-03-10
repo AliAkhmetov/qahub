@@ -36,6 +36,7 @@ export default function ID() {
   const [isEditable, setIsEditable] = useState(false);
   const [formData, setFormData] = useState<Partial<FormData>>();
   const [comments, setComments] = useState<any[] | null>(null);
+  const [commentField, setCommentField] = useState('');
 
   const handleEdit = async () => {
     setIsEditable(true);
@@ -102,9 +103,11 @@ export default function ID() {
 
     comment({
       access: token.access,
-      formData: { postId: formData.id, content: 'Content' },
+      formData: { postId: formData.id, content: commentField },
     }).then(() => {
-      console.log('Log');
+      getArticle({ language }).then(() => {
+        setCommentField('');
+      });
     });
   };
 
@@ -290,6 +293,8 @@ export default function ID() {
 
                   <input
                     type='text'
+                    onChange={({ target: { value } }) => setCommentField(value)}
+                    value={commentField}
                     placeholder='Оставить комментарий'
                     className={styles['comments__field-input']}
                   />
