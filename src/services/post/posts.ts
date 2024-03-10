@@ -16,6 +16,16 @@ export async function getPostsService({
   });
 }
 
+export async function getAuthPostsService({
+  language,
+}: GetPostsArg): Promise<AxiosResponse<Article[]>> {
+  return await api.get<Article[]>('/api/posts/', {
+    headers: {
+      Language: language,
+    },
+  });
+}
+
 interface GetPostByIdResponse {
   post_info: Article;
   comments: null;
@@ -32,15 +42,38 @@ export async function getPostByIdService({
   return await api.get<GetPostByIdResponse>(`/posts/${id}`);
 }
 
+export async function getAuthPostByIdService({
+  id,
+  access,
+  language,
+}: {
+  id: string;
+  language: string;
+  access: string;
+}): Promise<AxiosResponse<GetPostByIdResponse>> {
+  return await api.get<GetPostByIdResponse>(`/api/posts/${id}`, {
+    headers: {
+      Authorization: `Bearer ${access}`,
+      Language: language,
+    },
+  });
+}
+
 interface Arg {
   formData: Partial<Article>;
   access: string;
+  language?: string;
 }
 
-export async function createPostService({ formData, access }: Arg): Promise<AxiosResponse> {
+export async function createPostService({
+  formData,
+  language,
+  access,
+}: Arg): Promise<AxiosResponse> {
   return await api.post('/api/posts/', formData, {
     headers: {
       Authorization: `Bearer ${access}`,
+      Language: language,
     },
   });
 }
