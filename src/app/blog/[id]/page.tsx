@@ -64,6 +64,7 @@ const formats = [
 interface FormData extends Article {
   likedByMe: boolean;
   dislikedByMe: boolean;
+  language: string;
 }
 
 export default function ID() {
@@ -97,9 +98,11 @@ export default function ID() {
   const handleUpdate = async () => {
     if (!formData) return;
 
-    updatePost.mutateAsync({ formData, access: token.access }).then((data) => {
-      setIsEditable(false);
-    });
+    updatePost
+      .mutateAsync({ formData, access: token.access, language: formData.language })
+      .then((data) => {
+        setIsEditable(false);
+      });
   };
 
   const handleDelete = async () => {
@@ -287,6 +290,16 @@ export default function ID() {
                 value={formData.readTime}
                 onChange={({ target: { value } }) =>
                   setFormData((prev) => ({ ...prev, readTime: Number(value) }))
+                }
+              />
+
+              <input
+                type='text'
+                className={styles['editor-fields__image']}
+                placeholder='Язык статьи'
+                value={formData.language}
+                onChange={({ target: { value } }) =>
+                  setFormData((prev) => ({ ...prev, language: value }))
                 }
               />
             </div>

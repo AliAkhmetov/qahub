@@ -60,19 +60,28 @@ export default function Header() {
       <nav className={styles['header__right']}>
         <div className={styles['header__lang']}>
           <button
-            onClick={() => handleChangeLanguage('kz')}
+            onClick={() => {
+              handleChangeLanguage('kz');
+              window.location.reload();
+            }}
             className={cn(styles['header__lang-link'], language === 'kz' && styles['active'])}
           >
             қаз
           </button>
           <button
-            onClick={() => handleChangeLanguage('ru')}
+            onClick={() => {
+              handleChangeLanguage('ru');
+              window.location.reload();
+            }}
             className={cn(styles['header__lang-link'], language === 'ru' && styles['active'])}
           >
             рус
           </button>
           <button
-            onClick={() => handleChangeLanguage('en')}
+            onClick={() => {
+              handleChangeLanguage('en');
+              window.location.reload();
+            }}
             className={cn(styles['header__lang-link'], language === 'en' && styles['active'])}
           >
             eng

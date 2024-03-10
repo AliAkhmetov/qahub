@@ -78,10 +78,15 @@ export async function createPostService({
   });
 }
 
-export async function updatePostService({ formData, access }: Arg): Promise<AxiosResponse> {
+export async function updatePostService({
+  formData,
+  access,
+  language,
+}: Arg): Promise<AxiosResponse> {
   return await api.put(`/api/posts/${formData.id}`, formData, {
     headers: {
       Authorization: `Bearer ${access}`,
+      Language: language,
     },
   });
 }

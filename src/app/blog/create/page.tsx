@@ -60,6 +60,7 @@ export default function Create() {
     image: '',
     content: '',
     readTime: '',
+    language: '',
   });
 
   const createPost = useMutation({
@@ -77,6 +78,7 @@ export default function Create() {
         categoriesInt: [1, 3],
         readTime: Number(formData.readTime),
       },
+      language: formData.language,
       access: token.access,
     });
 
@@ -119,6 +121,16 @@ export default function Create() {
             value={formData.readTime}
             onChange={({ target: { value } }) =>
               setFormData((prev) => ({ ...prev, readTime: value }))
+            }
+          />
+
+          <input
+            type='text'
+            className={styles['editor-fields__image']}
+            placeholder='Язык статьи'
+            value={formData.readTime}
+            onChange={({ target: { value } }) =>
+              setFormData((prev) => ({ ...prev, language: value }))
             }
           />
         </div>
