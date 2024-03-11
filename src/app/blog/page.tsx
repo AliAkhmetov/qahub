@@ -18,22 +18,33 @@ export default function Blog() {
 
   const { language } = useSettingsStore();
 
-  const handleFilterArticles = useCallback(
-    (filterId: number) => {
-      /**
-       * filterId:
-       * 0 - Все
-       * 1 - Теория
-       * 2 - Инструменты
-       * 3 - Интервью
-       * 4 - Прочее
-       */
+  const handleFilterArticles = (filterId: number) => {
+    /**
+     * filterId:
+     * 0 - Все
+     * 1 - Теория
+     * 2 - Инструменты
+     * 3 - Интервью
+     * 4 - Прочее
+     */
 
-      if (filterId === 0) return setFilteredArticles(articles);
-      setFilteredArticles(articles.filter((article) => article.categoriesInt.includes(filterId)));
-    },
-    [articles],
-  );
+    if (filterId === 0) return setFilteredArticles(articles);
+    setFilteredArticles(articles.filter((article) => article.categoriesInt.includes(filterId)));
+  };
+
+  const handleSelectFilterArticles = (filterName: string) => {
+    if (filterName === 'datetime') {
+      const sorted = [...filteredArticles].sort(
+        (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+      );
+      setFilteredArticles(sorted);
+    }
+
+    if (filterName === 'popular') {
+      const sorted = [...filteredArticles].sort((a, b) => (a.likes < b.likes ? 1 : -1));
+      setFilteredArticles(sorted);
+    }
+  };
 
   const getArticles = async ({ language }: { language: string }) => {
     const auth = localStorage.getItem('auth');
@@ -50,14 +61,21 @@ export default function Blog() {
     const authParsed = JSON.parse(auth);
 
     if (authParsed.state.isAuth)
-      return getAuthPosts({ language: language, access: authParsed.state.token.access }).then(
-        (response) => {
+      return getAuthPosts({ language: language, access: authParsed.state.token.access })
+        .then((response) => {
           if (response.status === 200) {
             setArticles(response.data);
             setFilteredArticles(response.data);
           }
-        },
-      );
+        })
+        .catch(() => {
+          getPosts({ language: language }).then((response) => {
+            if (response.status === 200) {
+              setArticles(response.data);
+              setFilteredArticles(response.data);
+            }
+          });
+        });
 
     return getPosts({ language: language }).then((response) => {
       if (response.status === 200) {
@@ -125,8 +143,11 @@ export default function Blog() {
           </div>
 
           <div className={styles['filters__select']}>
-            <select>
-              <option defaultChecked>Популярное</option>
+            <select onChange={({ currentTarget: { value } }) => handleSelectFilterArticles(value)}>
+              <option value={'datetime'} defaultChecked>
+                Новые
+              </option>
+              <option value={'popular'}>Популярное</option>
             </select>
 
             <ChevronBottonIcon />
@@ -137,11 +158,9 @@ export default function Blog() {
           {!articles.length ? (
             <p>Загрузка постов...</p>
           ) : filteredArticles.length ? (
-            filteredArticles
-              .reverse()
-              .map((article) => (
-                <Article href={`/blog/${article.id}`} article={article} key={article.id} />
-              ))
+            filteredArticles.map((article) => (
+              <Article href={`/blog/${article.id}`} article={article} key={article.id} />
+            ))
           ) : (
             <p>Не найдено!</p>
           )}
