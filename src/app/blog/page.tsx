@@ -1,22 +1,26 @@
 'use client';
 
-import { i18n } from '@/i18n';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getAuthPosts, getPosts } from '@/api/post/posts';
+import { useSettingsStore } from '@/store/settings';
+import { useAuthStore } from '@/store/auth';
+import { useTranslation } from 'react-i18next';
 import { Article as ArticleType } from '@/types';
 
 import Header from '@/components/Header/Header';
 import { Footer } from '@/components/Footer';
 import { Article } from '@/components/Article';
-import ChevronBottonIcon from '@/assets/icons/chevron-bottom.svg';
 import styles from './page.module.scss';
-import { useSettingsStore } from '@/store/settings';
 
 export default function Blog() {
+  const { t } = useTranslation();
+
   const [articles, setArticles] = useState<ArticleType[]>([]);
   const [filteredArticles, setFilteredArticles] = useState<ArticleType[]>([]);
+  const [selectedFilter, setSelectedFilter] = useState('datetime');
 
   const { language } = useSettingsStore();
+  const { updateAuth } = useAuthStore();
 
   const handleFilterArticles = (filterId: number) => {
     /**
@@ -32,17 +36,19 @@ export default function Blog() {
     setFilteredArticles(articles.filter((article) => article.categoriesInt.includes(filterId)));
   };
 
-  const handleSelectFilterArticles = (filterName: string) => {
-    if (filterName === 'datetime') {
+  const handleSelectFilterArticles = () => {
+    if (selectedFilter === 'datetime') {
       const sorted = [...filteredArticles].sort(
         (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
       );
       setFilteredArticles(sorted);
+      return setSelectedFilter('popular');
     }
 
-    if (filterName === 'popular') {
+    if (selectedFilter === 'popular') {
       const sorted = [...filteredArticles].sort((a, b) => (a.likes < b.likes ? 1 : -1));
       setFilteredArticles(sorted);
+      return setSelectedFilter('datetime');
     }
   };
 
@@ -69,6 +75,7 @@ export default function Blog() {
           }
         })
         .catch(() => {
+          updateAuth(false);
           getPosts({ language: language }).then((response) => {
             if (response.status === 200) {
               setArticles(response.data);
@@ -77,6 +84,7 @@ export default function Blog() {
           });
         });
 
+    updateAuth(false);
     return getPosts({ language: language }).then((response) => {
       if (response.status === 200) {
         setArticles(response.data);
@@ -106,7 +114,7 @@ export default function Blog() {
               onClick={() => handleFilterArticles(0)}
               className={styles['filters__button']}
             >
-              Все
+              {t('page.blog.filters.all')}
             </button>
 
             <button
@@ -114,7 +122,7 @@ export default function Blog() {
               onClick={() => handleFilterArticles(1)}
               className={styles['filters__button']}
             >
-              Теория
+              {t('page.blog.filters.theory')}
             </button>
 
             <button
@@ -122,7 +130,7 @@ export default function Blog() {
               onClick={() => handleFilterArticles(2)}
               className={styles['filters__button']}
             >
-              Инструменты
+              {t('page.blog.filters.tools')}
             </button>
 
             <button
@@ -130,7 +138,7 @@ export default function Blog() {
               onClick={() => handleFilterArticles(3)}
               className={styles['filters__button']}
             >
-              Интервью
+              {t('page.blog.filters.interview')}
             </button>
 
             <button
@@ -138,19 +146,20 @@ export default function Blog() {
               onClick={() => handleFilterArticles(4)}
               className={styles['filters__button']}
             >
-              Прочее
+              {t('page.blog.filters.other')}
             </button>
           </div>
 
           <div className={styles['filters__select']}>
-            <select onChange={({ currentTarget: { value } }) => handleSelectFilterArticles(value)}>
-              <option value={'datetime'} defaultChecked>
-                Новые
-              </option>
-              <option value={'popular'}>Популярное</option>
-            </select>
-
-            <ChevronBottonIcon />
+            <button
+              type='button'
+              onClick={() => handleSelectFilterArticles()}
+              className={styles['filters__button']}
+            >
+              {selectedFilter === 'popular'
+                ? t('page.blog.filters.new')
+                : t('page.blog.filters.popular')}
+            </button>
           </div>
         </div>
 

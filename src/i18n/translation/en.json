@@ -2,5 +2,13 @@
   "header.nav.blog": "Blog",
   "header.nav.community": "Community",
   "header.nav.add-article": "Add article",
-  "header.nav.login": "Login"
+  "header.nav.login": "Login",
+
+  "page.blog.filters.all": "All",
+  "page.blog.filters.theory": "Theory",
+  "page.blog.filters.tools": "Tools",
+  "page.blog.filters.interview": "Interview",
+  "page.blog.filters.other": "Other",
+  "page.blog.filters.popular": "Popular",
+  "page.blog.filters.new": "New"
 }

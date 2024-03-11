@@ -82,47 +82,6 @@
     line-height: 20px;
     text-align: left;
   }
-
-  &__select {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    border: 1px solid var(--text-color);
-    border-radius: 0.5rem;
-    padding: 0.5rem 1.25rem;
-
-    @media (max-width: 768px) {
-      gap: 0.5rem;
-      padding: 0.5rem 0.75rem;
-    }
-
-    select {
-      appearance: none;
-
-      color: var(--text-color);
-      font-weight: 600;
-      font-size: 0.875rem;
-      line-height: 20px;
-      text-align: left;
-
-      @media (max-width: 768px) {
-        font-size: 0.75rem;
-        line-height: 16px;
-      }
-    }
-
-    svg {
-      flex-shrink: 0;
-      width: 1.125rem;
-      height: 1.125rem;
-      color: var(--text-color);
-
-      @media (max-width: 768px) {
-        width: 0.875rem;
-        height: 0.875rem;
-      }
-    }
-  }
 }
 
 .articles {

@@ -2,5 +2,13 @@
   "header.nav.blog": "Блог",
   "header.nav.community": "Қауымдастық",
   "header.nav.add-article": "Мақала қосу",
-  "header.nav.login": "Кіру"
+  "header.nav.login": "Кіру",
+
+  "page.blog.filters.all": "Барлығы",
+  "page.blog.filters.theory": "Теория",
+  "page.blog.filters.tools": "Құралдар",
+  "page.blog.filters.interview": "Сұхбат",
+  "page.blog.filters.other": "Басқалары",
+  "page.blog.filters.popular": "Танымал",
+  "page.blog.filters.new": "Жаңа"
 }

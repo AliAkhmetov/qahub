@@ -2,5 +2,13 @@
   "header.nav.blog": "Блог",
   "header.nav.community": "Комьюнити",
   "header.nav.add-article": "Добавить статью",
-  "header.nav.login": "Логин"
+  "header.nav.login": "Логин",
+
+  "page.blog.filters.all": "Все",
+  "page.blog.filters.theory": "Теория",
+  "page.blog.filters.tools": "Инструменты",
+  "page.blog.filters.interview": "Интервью",
+  "page.blog.filters.other": "Прочее",
+  "page.blog.filters.popular": "Популярные",
+  "page.blog.filters.new": "Новые"
 }
