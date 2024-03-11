@@ -8,9 +8,10 @@ interface Token {
 
 interface State {
   isAuth: boolean;
+  userType: string | null;
   token: Token;
   updateToken: (token: Token) => void;
-  updateAuth: (auth: boolean) => void;
+  updateAuth: (auth: boolean, userType?: string | null) => void;
 }
 
 export const useAuthStore = create<State>()(
@@ -18,13 +19,14 @@ export const useAuthStore = create<State>()(
     persist(
       (set) => ({
         isAuth: false,
+        userType: 'user',
         token: {
           access: '',
           liveTime: '',
         },
 
         updateToken: (token) => set((state) => ({ ...state, token })),
-        updateAuth: (auth) => set((state) => ({ ...state, isAuth: auth })),
+        updateAuth: (auth, userType) => set((state) => ({ ...state, isAuth: auth, userType })),
       }),
       {
         name: 'auth',

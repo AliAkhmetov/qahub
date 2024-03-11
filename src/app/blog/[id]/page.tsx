@@ -30,7 +30,7 @@ export default function ID() {
   const params = useParams();
   const router = useRouter();
 
-  const { token, isAuth } = useAuthStore();
+  const { token, isAuth, userType } = useAuthStore();
   const { language } = useSettingsStore();
 
   const [isEditable, setIsEditable] = useState(false);
@@ -240,7 +240,7 @@ export default function ID() {
         <p>Загрузка поста...</p>
       ) : (
         <article className={styles['article']}>
-          {isAuth && !isEditable && (
+          {isAuth && !isEditable && userType === 'admin' && (
             <div className={styles['article-actions']}>
               <button
                 onClick={() => handleEdit()}

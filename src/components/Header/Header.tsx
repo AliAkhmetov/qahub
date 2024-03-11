@@ -10,11 +10,10 @@ import styles from './Header.module.scss';
 import { useAuthStore } from '@/store/auth';
 import { useTranslation } from 'react-i18next';
 import { useSettingsStore } from '@/store/settings';
-import { i18n } from '@/i18n';
 
 export default function Header() {
   const { t } = useTranslation();
-  const { isAuth } = useAuthStore();
+  const { isAuth, userType } = useAuthStore();
   const { language, theme, updateLanguage, updateTheme } = useSettingsStore();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -75,11 +74,15 @@ export default function Header() {
           </Link>
 
           {isAuth ? (
-            <Link href='/blog/create' className={styles['header__nav-button']}>
-              <PlusIcon />
+            userType === 'admin' ? (
+              <Link href='/blog/create' className={styles['header__nav-button']}>
+                <PlusIcon />
 
-              <span>{t('header.nav.add-article')}</span>
-            </Link>
+                <span>{t('header.nav.add-article')}</span>
+              </Link>
+            ) : (
+              <></>
+            )
           ) : (
             <Link href='/signin' className={styles['header__nav-link']}>
               {t('header.nav.login')}

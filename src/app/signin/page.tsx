@@ -33,7 +33,7 @@ export default function Signin() {
         };
 
         updateToken(token);
-        updateAuth(true);
+        updateAuth(true, response.data.userType);
 
         return router.push('/blog');
       }

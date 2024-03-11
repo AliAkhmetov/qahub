@@ -10,6 +10,7 @@ interface SigninService {
   token: string;
   expires: string;
   error: string;
+  userType: string;
 }
 
 export async function signinService(formData: FormData): Promise<AxiosResponse<SigninService>> {
