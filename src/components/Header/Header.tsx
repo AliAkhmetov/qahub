@@ -13,13 +13,22 @@ import { useSettingsStore } from '@/store/settings';
 
 export default function Header() {
   const { t } = useTranslation();
-  const { isAuth, userType } = useAuthStore();
+  const { isAuth, userType, updateAuth, updateToken } = useAuthStore();
   const { language, theme, updateLanguage, updateTheme } = useSettingsStore();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleToggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('auth');
+    updateAuth(false);
+    updateToken({
+      access: '',
+      liveTime: '',
+    });
   };
 
   const handleChangeTheme = () => {
@@ -75,13 +84,29 @@ export default function Header() {
 
           {isAuth ? (
             userType === 'admin' ? (
-              <Link href='/blog/create' className={styles['header__nav-button']}>
-                <PlusIcon />
+              <>
+                <Link href='/blog/create' className={styles['header__nav-button']}>
+                  <PlusIcon />
 
-                <span>{t('header.nav.add-article')}</span>
-              </Link>
+                  <span>{t('header.nav.add-article')}</span>
+                </Link>
+
+                <button
+                  type='button'
+                  onClick={() => handleLogout()}
+                  className={styles['header__nav-link']}
+                >
+                  {t('header.nav.logout')}
+                </button>
+              </>
             ) : (
-              <></>
+              <button
+                type='button'
+                onClick={() => handleLogout()}
+                className={styles['header__nav-link']}
+              >
+                {t('header.nav.logout')}
+              </button>
             )
           ) : (
             <Link href='/signin' className={styles['header__nav-link']}>

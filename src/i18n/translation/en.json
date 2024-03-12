@@ -3,6 +3,7 @@
   "header.nav.community": "Community",
   "header.nav.add-article": "Add article",
   "header.nav.login": "Login",
+  "header.nav.logout": "Logout",
 
   "page.blog.filters.all": "All",
   "page.blog.filters.theory": "Theory",

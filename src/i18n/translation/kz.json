@@ -3,6 +3,7 @@
   "header.nav.community": "Қауымдастық",
   "header.nav.add-article": "Мақала қосу",
   "header.nav.login": "Кіру",
+  "header.nav.logout": "Шығу",
 
   "page.blog.filters.all": "Барлығы",
   "page.blog.filters.theory": "Теория",

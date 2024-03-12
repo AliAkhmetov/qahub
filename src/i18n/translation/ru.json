@@ -3,6 +3,7 @@
   "header.nav.community": "Комьюнити",
   "header.nav.add-article": "Добавить статью",
   "header.nav.login": "Логин",
+  "header.nav.logout": "Выход",
 
   "page.blog.filters.all": "Все",
   "page.blog.filters.theory": "Теория",
