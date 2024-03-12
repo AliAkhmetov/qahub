@@ -10,5 +10,8 @@
   "page.blog.filters.interview": "Сұхбат",
   "page.blog.filters.other": "Басқалары",
   "page.blog.filters.popular": "Танымал",
-  "page.blog.filters.new": "Жаңа"
+  "page.blog.filters.new": "Жаңа",
+
+  "page.blog.title": "Құрылымдық және қарапайым QA туралы",
+  "page.blog.description": "Сапа ешқашан кездейсоқ болмайды; ол әрқашан ақылды еңбек нәтижесі."
 }

@@ -10,5 +10,8 @@
   "page.blog.filters.interview": "Interview",
   "page.blog.filters.other": "Other",
   "page.blog.filters.popular": "Popular",
-  "page.blog.filters.new": "New"
+  "page.blog.filters.new": "New",
+
+  "page.blog.title": "Structured and simple about QA",
+  "page.blog.description": "Quality is never an accident; it is always the result of intelligent effort."
 }

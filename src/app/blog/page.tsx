@@ -102,10 +102,8 @@ export default function Blog() {
       <Header />
 
       <section className={styles['hero-section']}>
-        <h1 className={styles['hero-section__title']}>Learn about testing</h1>
-        <p className={styles['hero-section__subtitle']}>
-          Стратьи о QA для начинающих и продвинутых
-        </p>
+        <h1 className={styles['hero-section__title']}>{t('page.blog.title')}</h1>
+        <p className={styles['hero-section__subtitle']}>{t('page.blog.description')}</p>
 
         <div className={styles['filters']}>
           <div className={styles['filters__left']}>
@@ -163,17 +161,19 @@ export default function Blog() {
           </div>
         </div>
 
-        <div className={styles['articles']}>
-          {!articles.length ? (
-            <p>Загрузка постов...</p>
-          ) : filteredArticles.length ? (
-            filteredArticles.map((article) => (
-              <Article href={`/blog/${article.id}`} article={article} key={article.id} />
-            ))
-          ) : (
-            <p>Не найдено!</p>
-          )}
-        </div>
+        {articles && (
+          <div className={styles['articles']}>
+            {!articles.length ? (
+              <p>Загрузка постов...</p>
+            ) : filteredArticles.length ? (
+              filteredArticles.map((article) => (
+                <Article href={`/blog/${article.id}`} article={article} key={article.id} />
+              ))
+            ) : (
+              <p>Не найдено!</p>
+            )}
+          </div>
+        )}
       </section>
 
       <Footer />
