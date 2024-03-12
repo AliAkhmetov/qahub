@@ -11,6 +11,7 @@ import Link from 'next/link';
 import GoogleIcon from '@/assets/icons/google.svg';
 import { Footer } from '@/components/Footer';
 import styles from './page.module.scss';
+import { AxiosError, AxiosResponse } from 'axios';
 
 export default function Signin() {
   const router = useRouter();
@@ -27,6 +28,8 @@ export default function Signin() {
   });
 
   const handleSignin = async (formData: FormData) => {
+    console.log(signin.error);
+
     try {
       const response = await signin.mutateAsync(formData);
 
@@ -96,6 +99,13 @@ export default function Signin() {
               <p className={styles['field__error-message']}>Вы ввели неправильный пароль!</p>
             )}
           </div>
+
+          {(signin.error as any) &&
+            (signin.error as any).response.data.message === 'Incorrect email or password' && (
+              <p className={styles['form__error-message']}>
+                Неверный адрес электронной почты или пароль
+              </p>
+            )}
 
           <button disabled={signin.isLoading} className={styles['form__submit']}>
             Продолжить
