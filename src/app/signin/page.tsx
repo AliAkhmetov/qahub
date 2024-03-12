@@ -16,7 +16,11 @@ export default function Signin() {
   const router = useRouter();
 
   const { updateAuth, updateToken } = useAuthStore();
-  const { register, handleSubmit } = useForm<FormData>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>();
   const signin = useMutation({
     mutationKey: ['signin'],
     mutationFn: signinService,
@@ -58,8 +62,22 @@ export default function Signin() {
               type={'text'}
               placeholder='Введите ваш адрес электронной почты'
               className={styles['field__input']}
-              {...register('email')}
+              {...register('email', {
+                required: true,
+                pattern:
+                  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+              })}
             />
+
+            {errors.email?.type === 'required' && (
+              <p className={styles['field__error-message']}>Вы не ввели адрес электронной почты!</p>
+            )}
+
+            {errors.email?.type === 'pattern' && (
+              <p className={styles['field__error-message']}>
+                Вы ввели неправильный адрес электронной почты!
+              </p>
+            )}
           </div>
 
           <div className={styles['field']}>
@@ -69,20 +87,26 @@ export default function Signin() {
               type={'password'}
               placeholder='Введите ваш пароль'
               className={styles['field__input']}
-              {...register('password')}
+              {...register('password', {
+                required: true,
+              })}
             />
+
+            {errors.password?.type === 'required' && (
+              <p className={styles['field__error-message']}>Вы ввели неправильный пароль!</p>
+            )}
           </div>
 
           <button disabled={signin.isLoading} className={styles['form__submit']}>
             Продолжить
           </button>
 
-          <p className={styles['form__description']}>Или продолжить с помощью</p>
+          {/* <p className={styles['form__description']}>Или продолжить с помощью</p>
 
           <button className={styles['form__button-google']}>
             <GoogleIcon />
             <span>Google</span>
-          </button>
+          </button> */}
         </form>
       </div>
 
