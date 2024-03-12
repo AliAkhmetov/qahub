@@ -78,7 +78,11 @@ export default function Header() {
             {t('header.nav.blog')}
           </Link>
 
-          <Link href='/community' className={styles['header__nav-link']}>
+          <Link
+            href='https://t.me/+zbrPcT8kLSZkMjA6'
+            target='_blank'
+            className={styles['header__nav-link']}
+          >
             {t('header.nav.community')}
           </Link>
 
