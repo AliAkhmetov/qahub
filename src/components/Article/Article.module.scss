@@ -124,25 +124,23 @@
 
   &__read-time {
     display: flex;
+    column-gap: 0.25rem;
     align-items: center;
-    column-gap: .25rem;
 
-    span{
-      
-      color: rgb(156, 163, 175);
+    span {
+      color: var(--text-gray-color);
       font-weight: 400;
       font-size: 0.75rem;
       line-height: 24px;
       text-align: right;
-  
       white-space: nowrap;
     }
 
-    img {
-      opacity: .75;
+    svg {
+      flex-shrink: 0;
       width: 1.5rem;
       height: 1.5rem;
-      flex-shrink: 0;
+      color: var(--text-gray-color);
     }
   }
 }

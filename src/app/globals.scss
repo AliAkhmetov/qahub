@@ -6,6 +6,7 @@
   --text-color: rgb(51, 51, 63);
   --active-color: rgb(57, 100, 255);
   --footer-bg-color: rgb(244, 246, 255);
+  --text-gray-color: rgb(156, 163, 175);
 }
 
 [data-theme='dark'] {
@@ -13,6 +14,7 @@
   --bg-color: rgb(51, 51, 63);
   --active-color: #ffc933;
   --footer-bg-color: rgb(22, 24, 33);
+  --text-gray-color: rgb(219, 220, 220);
 }
 
 * {
