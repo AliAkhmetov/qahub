@@ -20,7 +20,6 @@ const ReactQuill = dynamic(
 const modules = {
   syntax: true,
   toolbar: [
-    [
       ['bold', 'italic', 'underline', 'strike'], // toggled buttons
       ['blockquote', 'code-block'],
 
@@ -38,7 +37,6 @@ const modules = {
       [{ align: [] }],
 
       ['clean'], // remove formatting button
-    ],
   ],
 };
 
