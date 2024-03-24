@@ -17,8 +17,11 @@ import LikeIcon from '@/assets/icons/like.svg';
 import DislikeIcon from '@/assets/icons/dislike.svg';
 import LikeFilledIcon from '@/assets/icons/like-filled.svg';
 import DislikeFilledIcon from '@/assets/icons/dislike-filled.svg';
+import GlassesIcon from "@/assets/icons/eye.png"
 import styles from './page.module.scss';
 import 'react-quill/dist/quill.snow.css';
+import Image from 'next/image';
+import { useTranslation } from 'react-i18next';
 
 interface FormData extends Article {
   likedByMe: boolean;
@@ -27,6 +30,7 @@ interface FormData extends Article {
 }
 
 export default function ID() {
+  const {t} = useTranslation();
   const params = useParams();
   const router = useRouter();
 
@@ -365,9 +369,17 @@ export default function ID() {
             </div>
           )}
 
-          <p className={styles['article-datetime']}>
+<div className={styles["article-info"]}>
+
+          <span className={styles['article-datetime']}>
             {dayjs(formData.createdAt).format('DD/MM/YYYY')}
-          </p>
+          </span>
+
+          <span className={styles['article-datetime']}>
+            <Image src={GlassesIcon} alt="" />
+            {t("article.readtime", {readtime: formData.readTime})}
+          </span>
+</div>
 
           {isEditable && (
             <>

@@ -14,5 +14,7 @@
   "page.blog.filters.new": "New",
 
   "page.blog.title": "Structured and simple about QA",
-  "page.blog.description": "Quality is never an accident; it is always the result of intelligent effort. - John Ruskin"
+  "page.blog.description": "Quality is never an accident; it is always the result of intelligent effort. - John Ruskin",
+
+  "article.readtime": "{{readtime}} min."
 }

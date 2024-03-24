@@ -1,10 +1,16 @@
+"use client";
 import dayjs from 'dayjs';
 import type { ArticleProps } from './types';
 
 import Link from 'next/link';
+import Image from 'next/image';
+import GlassesIcon from '@/assets/icons/eye.png';
 import styles from './Article.module.scss';
+import { useTranslation } from 'react-i18next';
 
 export function Article({ article, href }: ArticleProps) {
+  const {t} = useTranslation();
+
   return (
     <article className={styles['article']}>
       <div className={styles['article__image']}>
@@ -32,7 +38,10 @@ export function Article({ article, href }: ArticleProps) {
 
         <p className={styles['article__date']}>{dayjs(article.createdAt).format('DD/MM/YYYY')}</p>
 
-        <p className={styles['article__read-time']}>читать {article.readTime} минут</p>
+        <div className={styles['article__read-time']}>
+          <Image src={GlassesIcon} alt='' />
+          <span>{t("article.readtime",{readtime:article.readTime}) }</span>
+        </div>
       </div>
     </article>
   );

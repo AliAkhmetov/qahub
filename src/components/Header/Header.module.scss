@@ -36,10 +36,6 @@
     display: flex;
     column-gap: 0.625rem;
 
-    @media (max-width: 768px) {
-      display: none;
-    }
-
     &-link {
       color: var(--text-color);
       font-weight: 400;
