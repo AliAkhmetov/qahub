@@ -20,7 +20,7 @@ const ReactQuill = dynamic(
 const modules = {
   syntax: true,
   toolbar: [
-    [{ header: [2] }],
+    [{ header: [2,3] }],
     ['bold', 'italic', 'underline', 'strike', 'code-block', 'link'],
     [{ list: 'ordered' }, { list: 'bullet' }, { indent: '-1' }, { indent: '+1' }],
     ['image'],

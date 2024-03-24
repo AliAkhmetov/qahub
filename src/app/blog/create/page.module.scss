@@ -27,6 +27,19 @@
     line-height: 40px !important;
   }
 
+
+  h3 {
+    color: var(--text-color) !important;
+    font-weight: 700 !important;
+    font-size: 1.75rem !important;
+    line-height: 20px !important;
+
+    @media (max-width: 768px) {
+      font-size: 1.125rem !important;
+      line-height: 20px !important;
+    }
+  }
+
   p,
   strong {
     color: var(--text-color) !important;
