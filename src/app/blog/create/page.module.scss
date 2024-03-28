@@ -52,6 +52,11 @@
     font-weight: 700 !important;
   }
 
+  a {
+    color: var(--active-color) !important;
+    text-decoration: underline;
+  }
+
   &-fields {
     display: flex;
     row-gap: 1rem;

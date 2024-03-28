@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import dayjs from 'dayjs';
 import type { ArticleProps } from './types';
 
@@ -6,12 +6,14 @@ import Link from 'next/link';
 import GlassesIcon from '@/assets/icons/eye.svg';
 import styles from './Article.module.scss';
 import { useTranslation } from 'react-i18next';
+import { useRouter } from 'next/navigation';
 
 export function Article({ article, href }: ArticleProps) {
-  const {t} = useTranslation();
+  const router = useRouter();
+  const { t } = useTranslation();
 
   return (
-    <article className={styles['article']}>
+    <article onClick={() => router.push(href)} className={styles['article']}>
       <div className={styles['article__image']}>
         <img src={article.imageLink} alt='' />
       </div>
@@ -39,7 +41,7 @@ export function Article({ article, href }: ArticleProps) {
 
         <div className={styles['article__read-time']}>
           <GlassesIcon />
-          <span>{t("article.readtime",{readtime:article.readTime}) }</span>
+          <span>{t('article.readtime', { readtime: article.readTime })}</span>
         </div>
       </div>
     </article>

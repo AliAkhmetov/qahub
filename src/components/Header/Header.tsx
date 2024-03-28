@@ -10,8 +10,11 @@ import styles from './Header.module.scss';
 import { useAuthStore } from '@/store/auth';
 import { useTranslation } from 'react-i18next';
 import { useSettingsStore } from '@/store/settings';
+import { usePathname } from 'next/navigation';
 
 export default function Header() {
+  const pathname = usePathname();
+
   const { t } = useTranslation();
   const { isAuth, userType, updateAuth, updateToken } = useAuthStore();
   const { language, theme, updateLanguage, updateTheme } = useSettingsStore();
@@ -50,28 +53,31 @@ export default function Header() {
       </div>
 
       <nav className={styles['header__right']}>
-        <div className={styles['header__lang']}>
-          <button
-            onClick={() => updateLanguage('kz')}
-            className={cn(styles['header__lang-link'], language === 'kz' && styles['active'])}
-          >
-            қаз
-          </button>
-          <button
-            onClick={() => updateLanguage('ru')}
-            className={cn(styles['header__lang-link'], language === 'ru' && styles['active'])}
-          >
-            рус
-          </button>
-          <button
-            onClick={() => updateLanguage('en')}
-            className={cn(styles['header__lang-link'], language === 'en' && styles['active'])}
-          >
-            eng
-          </button>
-        </div>
-
-        <div className={styles['header__divider']}></div>
+        {!pathname.includes('/blog/') && (
+          <>
+            <div className={styles['header__lang']}>
+              <button
+                onClick={() => updateLanguage('kz')}
+                className={cn(styles['header__lang-link'], language === 'kz' && styles['active'])}
+              >
+                қаз
+              </button>
+              <button
+                onClick={() => updateLanguage('ru')}
+                className={cn(styles['header__lang-link'], language === 'ru' && styles['active'])}
+              >
+                рус
+              </button>
+              <button
+                onClick={() => updateLanguage('en')}
+                className={cn(styles['header__lang-link'], language === 'en' && styles['active'])}
+              >
+                eng
+              </button>
+            </div>
+            <div className={styles['header__divider']}></div>
+          </>
+        )}
 
         <div className={cn(styles['header__nav'], isMenuOpen && styles['active'])}>
           <Link href='/blog' className={styles['header__nav-link']}>
