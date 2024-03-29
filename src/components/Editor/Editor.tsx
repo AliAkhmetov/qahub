@@ -35,6 +35,10 @@ const modules = {
     [{ size: ['small', false, 'large', 'huge'] }], // custom dropdown
     [{ header: [1, 2, 3, 4, 5, 6, false] }],
 
+    [{ 'script': 'sub'}, { 'script': 'super' }], // superscript/subscript
+    [{ 'color': [] }, { 'background': [] }],
+    [{ 'direction': 'rtl' }], // text direction
+
     ['clean'], // remove formatting button
   ],
 };
@@ -51,6 +55,10 @@ const formats = [
   'bullet',
   'indent',
   'image',
+  'color',
+  'background',
+  'direction',
+  'script',
 ];
 
 export function Editor(props: ReactQuillProps) {
