@@ -1,4 +1,5 @@
 import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Nunito_Sans } from 'next/font/google';
 import type { Metadata } from 'next';
 
@@ -23,9 +24,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='kz' data-theme='light'>
+      <head>
+        <meta
+          name='google-site-verification'
+          content='s8DxJF5R4xDs5eYqvHKlRStd3tiDv6i6E7TyjFJcg7o'
+        />
+      </head>
       <body className={fontNunitoSans.variable}>
         <Providers>{children}</Providers>
         <Analytics mode={'production'} />
+        <SpeedInsights />
       </body>
     </html>
   );
