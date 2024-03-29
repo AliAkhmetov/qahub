@@ -14,7 +14,16 @@ const fontNunitoSans = Nunito_Sans({
 
 export const metadata: Metadata = {
   title: 'QAhub',
-  description: 'Структурированно и просто о QA',
+  description: 'Просто о QA',
+  keywords: ['qa', "qahub", "qa hub", "qahub kz", "qa hub kz", "qa kz"],
+  openGraph: {
+    title: 'QAhub',
+    description: 'Просто о QA',
+    siteName: 'qahub.kz',
+  },
+  verification: {
+    google: "8JqOq6Fg0y7T6KrjtYok67XFH5dwgFh9WnC7MVbiDPg"
+  }
 };
 
 export default function RootLayout({
@@ -25,10 +34,6 @@ export default function RootLayout({
   return (
     <html lang='kz' data-theme='light'>
       <head>
-        <meta
-          name='google-site-verification'
-          content='8JqOq6Fg0y7T6KrjtYok67XFH5dwgFh9WnC7MVbiDPg'
-        />
       </head>
       <body className={fontNunitoSans.variable}>
         <Providers>{children}</Providers>
