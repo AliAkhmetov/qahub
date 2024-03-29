@@ -27,7 +27,7 @@ export default function RootLayout({
       <head>
         <meta
           name='google-site-verification'
-          content='s8DxJF5R4xDs5eYqvHKlRStd3tiDv6i6E7TyjFJcg7o'
+          content='8JqOq6Fg0y7T6KrjtYok67XFH5dwgFh9WnC7MVbiDPg'
         />
       </head>
       <body className={fontNunitoSans.variable}>
