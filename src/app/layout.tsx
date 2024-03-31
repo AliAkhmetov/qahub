@@ -15,11 +15,15 @@ const fontNunitoSans = Nunito_Sans({
 export const metadata: Metadata = {
   title: 'QAhub',
   description: 'Просто о QA',
-  keywords: ['qa', "qahub", "qa hub", "qahub kz", "qa hub kz", "qa kz"],
+  keywords: ['qa', "qahub", "qa hub", "qahub kz", "qa hub kz", "qa kz", "qa engineer", "тестирование", "Тестілеуші", "qa blog", "блог о тестировании и qa"],
   openGraph: {
-    title: 'QAhub',
-    description: 'Просто о QA',
+    title: 'Все о QA',
+    description: 'QA туралы блог, Статьи о QA в Казахстане',
     siteName: 'qahub.kz',
+    url: 'https://www.qahub.kz/',
+    image: 'https://www.qahub.kz/media/web/seo/LOGO.png',
+    type: 'website'
+
   },
   verification: {
     google: "8JqOq6Fg0y7T6KrjtYok67XFH5dwgFh9WnC7MVbiDPg"
