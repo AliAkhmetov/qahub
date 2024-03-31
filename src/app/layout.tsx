@@ -22,8 +22,7 @@ export const metadata: Metadata = {
     siteName: 'qahub.kz',
     url: 'https://www.qahub.kz/',
     image: 'https://www.qahub.kz/media/web/seo/LOGO.png',
-    type: 'website'
-
+    type: 'website',
   },
   verification: {
     google: "8JqOq6Fg0y7T6KrjtYok67XFH5dwgFh9WnC7MVbiDPg"
